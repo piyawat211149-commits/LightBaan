@@ -1,5 +1,5 @@
 const cats = [
-  { name: "มะลิ", type: "lost", detail: "ส้มขาว · เพศเมีย · ปลอกคอสีเขียว", location: "บางนา, กรุงเทพมหานคร", image: "photo-1514888286974-6c03e2ca1dba" },
+  { name: "มะลิ", type: "lost", detail: "ส้มขาว · เพศเมีย · เป็นมิตรกับสุนัข", location: "บางนา, กรุงเทพมหานคร", image: "photo-1514888286974-6c03e2ca1dba" },
   { name: "น้องลายสลิด", type: "found", detail: "ลายสลิด · เป็นมิตร · ไม่มีปลอกคอ", location: "อารีย์, กรุงเทพมหานคร", image: "photo-1573865526739-10659fec78a5" },
   { name: "โมจิ", type: "adopt", detail: "ขาวส้ม · อายุ 8 เดือน · ขี้อ้อน", location: "เมือง, นนทบุรี", image: "photo-1495360010541-f48722b34f7d" },
   { name: "ถุงเงิน", type: "adopt", detail: "แมวส้ม · อายุ 1 ปี · ชอบเล่นกับคน", location: "ลาดพร้าว, กรุงเทพมหานคร", image: "photo-1518791841217-8f162f1e1131" },
