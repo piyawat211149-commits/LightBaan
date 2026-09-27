@@ -3,70 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="LightBaan เว็บไซต์ช่วยตามหาแมวและหาบ้านให้แมวในชุมชน">
+  <meta name="description" content="LightBaan พื้นที่ช่วยตามหาแมวและหาบ้านให้แมวในชุมชน เลือกดูประกาศตามเขตและรู้จักน้องแต่ละตัว">
   <title>LightBaan | พาน้องแมวกลับบ้าน</title>
   <link rel="icon" type="image/jpeg" href="Logo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="cats.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <header class="site-header">
     <div class="container navbar">
-      <a class="logo" href="#home" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt="โลโก้ LightBaan"><span>Light<strong>Baan</strong></span></a>
-      <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a class="active" href="#home">หน้าแรก</a><a href="#cats">ตามหาแมว</a><a href="#cats">หาบ้านให้น้อง</a><a href="#about">เกี่ยวกับเรา</a></nav>
-      <div class="auth-actions">
-        <button class="login-button" type="button" data-coming-soon>เข้าสู่ระบบ</button>
-        <button class="register-button" type="button" data-coming-soon>ลงทะเบียน</button>
-      </div>
+      <a class="logo" href="index.html" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a class="active" href="#home" aria-current="page">หน้าแรก</a><a href="#cats" data-category="lost">ตามหาแมว</a><a href="#cats" data-category="adopt">หาบ้านให้น้อง</a><a href="#about">เกี่ยวกับเรา</a></nav>
+      <div class="auth-actions"><a class="login-button" href="auth.html">เข้าสู่ระบบ</a><a class="register-button" href="auth.html?mode=register">ลงทะเบียน</a></div>
     </div>
   </header>
-
-  <main>
+  <main id="main">
     <section class="hero" id="home">
       <div class="container hero-grid">
         <div class="hero-content">
           <p class="eyebrow"><span></span> พื้นที่เล็ก ๆ ของคนรักแมว</p>
           <h1>ทุกอุ้งเท้า<br>ควรมีทาง<span>กลับบ้าน</span></h1>
           <p class="hero-description">ไม่ว่าจะกำลังตามหา พบเจอ หรืออยากมอบบ้านให้น้อง ให้ LightBaan ช่วยเชื่อมเรื่องราวของคุณเข้าด้วยกัน</p>
-          <div class="hero-actions"><button class="primary-button" type="button" data-coming-soon>แจ้งแมวหาย / พบแมว</button><a class="text-link" href="#cats">อยากรับเลี้ยงน้อง <span>→</span></a></div>
+          <div class="hero-actions"><button class="primary-button" type="button" data-coming-soon>แจ้งแมวหาย / พบแมว ↗</button><a class="text-link" href="#cats" data-category="adopt">อยากรับเลี้ยงน้อง <span>→</span></a></div>
           <div class="kind-note"><div class="cat-faces" aria-hidden="true">🐈 🐈‍⬛ 🐈</div><p>เพราะบ้านที่อบอุ่น<br><strong>เริ่มต้นจากคนที่ใส่ใจ</strong></p></div>
         </div>
         <div class="hero-image-wrap">
-          <img class="hero-image" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85" alt="แมวสีขาวดำกำลังมองกล้อง">
+          <img class="hero-image" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85" alt="แมวสีขาวดำกำลังมองกล้อง" fetchpriority="high">
           <div class="image-note"><span>♡</span><p>บ้านของใครบางคน<br><strong>อาจเป็นคุณก็ได้นะ</strong></p></div>
         </div>
       </div>
     </section>
-
-    <section class="search-area">
+    <section class="search-area" aria-label="ค้นหาประกาศตามพื้นที่">
       <form class="container search-box" id="searchForm">
         <div class="search-heading"><strong>เริ่มต้นตามหาน้อง</strong><span>เรื่องราวดี ๆ อาจอยู่ใกล้คุณ</span></div>
-        <label>ประเภทประกาศ<select id="typeFilter"><option value="all">ประกาศทั้งหมด</option><option value="lost">แมวหาย</option><option value="found">พบแมว</option><option value="adopt">หาบ้าน</option></select></label>
-        <label>พื้นที่หรือคำค้น<input id="searchInput" type="search" placeholder="เช่น บางนา หรือ แมวส้ม"></label>
+        <label for="typeFilter">ประเภทประกาศ<select id="typeFilter"><option value="all">ประกาศทั้งหมด</option><option value="lost">แมวหาย</option><option value="found">พบแมว</option><option value="adopt">หาบ้าน</option></select></label>
+        <label for="districtFilter">เขต / อำเภอ<select id="districtFilter"><option value="all">ทุกพื้นที่</option></select></label>
         <button class="primary-button" type="submit">ค้นหาน้อง</button>
       </form>
     </section>
-
     <section class="cats-section container" id="cats">
-      <div class="section-heading"><div><p class="section-label">A CHANCE TO CONNECT</p><h2>หนึ่งประกาศ อีกหนึ่งโอกาส</h2><p>ช่วยกันมองหา หรือเป็นบ้านหลังใหม่ให้ใครสักตัว</p></div><span id="resultCount">6 ประกาศ</span></div>
-      <div class="filter-buttons" aria-label="กรองประเภทประกาศ"><button class="active" type="button" data-filter="all">ทั้งหมด</button><button type="button" data-filter="lost">แมวหาย</button><button type="button" data-filter="found">พบแมว</button><button type="button" data-filter="adopt">หาบ้าน</button></div>
+      <div class="section-heading"><div><p class="section-label">A CHANCE TO CONNECT</p><h2>หนึ่งประกาศ อีกหนึ่งโอกาส</h2><p>ช่วยกันมองหา หรือเป็นบ้านหลังใหม่ให้ใครสักตัว</p></div><span id="resultCount" role="status">6 ประกาศ</span></div>
+      <p class="sample-note">ประกาศตัวอย่างสำหรับนำเสนอแนวคิดเว็บไซต์ รูปภาพใช้ประกอบเท่านั้น</p>
+      <div class="filter-buttons" role="group" aria-label="กรองประเภทประกาศ"><button class="active" type="button" data-filter="all" aria-pressed="true">ทั้งหมด</button><button type="button" data-filter="lost" aria-pressed="false">แมวหาย</button><button type="button" data-filter="found" aria-pressed="false">พบแมว</button><button type="button" data-filter="adopt" aria-pressed="false">หาบ้าน</button></div>
       <div class="cat-grid" id="catGrid"></div>
-      <div class="empty-state" id="emptyState" hidden><h3>ยังไม่พบประกาศที่ตรงกัน</h3><p>ลองเปลี่ยนประเภทหรือใช้คำค้นอื่น</p></div>
+      <noscript><p>กรุณาเปิด JavaScript เพื่อค้นหาและดูประกาศแมว</p></noscript>
+      <div class="empty-state" id="emptyState" hidden><h3>ยังไม่พบประกาศในพื้นที่นี้</h3><p>ลองเลือกประเภทอื่น หรือดูประกาศจากทุกพื้นที่</p><button class="secondary-button" type="button" id="resetFilters">แสดงประกาศทั้งหมด</button></div>
     </section>
-
-    <section class="about-section container" id="about">
-      <div class="about-icon" aria-hidden="true">♡</div>
-      <div><p class="section-label">SMALL ACTS, BIG DIFFERENCE</p><h2>ไม่ต้องเลี้ยงแมว ก็ช่วยน้องได้</h2><p>แค่ช่วยสังเกต แจ้งเบาะแส หรือส่งต่อประกาศ คุณก็เป็นส่วนหนึ่งที่ช่วยพาน้องกลับบ้านได้</p></div>
-      <button class="secondary-button" type="button" data-coming-soon>ร่วมเป็นส่วนหนึ่ง</button>
+    <section class="story-section container" id="about" aria-labelledby="aboutTitle">
+      <div class="story-visual"><img src="Logo.jpg" alt="แมวสองตัวใต้หลังคาบ้าน สัญลักษณ์ของ LightBaan" loading="lazy"><p>เพราะทุกชีวิตต้องการบ้าน</p></div>
+      <div class="story-copy"><p class="section-label">MEET LIGHTBAAN</p><h2 id="aboutTitle">พื้นที่แห่งความหวัง<br>ของแมวและคนที่รักเขา</h2><p>วันที่แมวหาย เจ้าของอาจต้องไล่หาประกาศจากหลายช่องทาง ขณะที่คนพบแมวก็ไม่รู้ว่าจะส่งข่าวถึงใคร LightBaan จึงเริ่มจากความตั้งใจที่จะรวมเรื่องราวเหล่านี้ไว้ในพื้นที่เดียว</p><p>เราช่วยให้คุณค้นหาประกาศตามเขต ดูรูปและจุดสังเกตของน้อง และรู้จักแมวที่กำลังรอบ้านใหม่ เพื่อให้คนในชุมชนช่วยกันได้ง่ายขึ้น</p><a class="text-link" href="#how-it-works">รู้จักวิธีใช้งาน <span>↓</span></a></div>
     </section>
+    <section class="how-section container" id="how-it-works" aria-labelledby="howTitle">
+      <div class="section-heading"><div><p class="section-label">A LITTLE HELP GOES A LONG WAY</p><h2 id="howTitle">เริ่มช่วยน้องได้ใน 3 ขั้นตอน</h2><p>เลือกสิ่งที่คุณอยากช่วย แล้วเริ่มจากพื้นที่ใกล้ตัว</p></div></div>
+      <ol class="steps"><li><span class="step-number">01</span><h3>เลือกพื้นที่ของคุณ</h3><p>เลือกเขตหรืออำเภอ แล้วกรองประกาศแมวหาย พบแมว หรือหาบ้าน</p></li><li><span class="step-number">02</span><h3>ทำความรู้จักน้อง</h3><p>เปิดรายละเอียด ดูลักษณะเด่น นิสัย และข้อมูลพื้นที่ เพื่อเปรียบเทียบก่อนตัดสินใจ</p></li><li><span class="step-number">03</span><h3>ช่วยส่งต่อโอกาส</h3><p>แชร์ลิงก์ประกาศให้คนในพื้นที่ หรือเตรียมข้อมูลเพื่อพูดคุยกับผู้ดูแล</p></li></ol>
+    </section>
+    <section class="faq-section container" aria-labelledby="faqTitle">
+      <div><p class="section-label">GOOD TO KNOW</p><h2 id="faqTitle">ก่อนเริ่มช่วยน้อง</h2><p>เรื่องเล็ก ๆ ที่ช่วยให้การตามหา<br>และรับเลี้ยงเป็นไปอย่างรอบคอบ</p></div>
+      <div class="faq-list"><details><summary>แมวที่พบดูเหมือนแมวในประกาศ ควรทำอย่างไร?</summary><p>เปรียบเทียบจุดสังเกต สีขน ปลอกคอ และพื้นที่ให้ครบ เตรียมภาพกับเวลาที่พบเพื่อแจ้งผู้ประกาศ รูปที่คล้ายกันเพียงอย่างเดียวยังยืนยันไม่ได้ว่าเป็นแมวตัวเดียวกัน</p></details><details><summary>อยากรับเลี้ยง ควรเตรียมอะไรบ้าง?</summary><p>เตรียมพื้นที่ปลอดภัย อาหาร กระบะทราย และเวลาในการดูแล พูดคุยกับสมาชิกในบ้าน รวมถึงสอบถามนิสัยและประวัติการดูแลของน้องจากผู้ประกาศก่อนตัดสินใจ</p></details><details><summary>ตอนนี้เว็บไซต์เปิดใช้งานส่วนไหนแล้วบ้าง?</summary><p>คุณสามารถกรองประกาศตัวอย่าง เปิดรายละเอียดแมว และทดลองกรอกหน้าสมาชิกได้ ส่วนการลงประกาศ การติดต่อ และการสร้างบัญชีจริงยังอยู่ระหว่างพัฒนา</p></details></div>
+    </section>
+    <section class="about-section container"><div class="about-icon" aria-hidden="true">♡</div><div><p class="section-label">SMALL ACTS, BIG DIFFERENCE</p><h2>ไม่ต้องเลี้ยงแมว ก็ช่วยน้องได้</h2><p>แค่ช่วยสังเกต แจ้งเบาะแส หรือส่งต่อประกาศ คุณก็เป็นส่วนหนึ่งที่ช่วยพาน้องกลับบ้านได้</p></div><a class="secondary-button" href="auth.html?mode=register">ร่วมเป็นส่วนหนึ่ง ↗</a></section>
   </main>
-
-  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="#home"><img class="logo-image" src="Logo.jpg" alt="โลโก้ LightBaan"><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
-
-  <dialog id="comingSoonDialog"><button class="dialog-close" id="dialogClose" type="button" aria-label="ปิด">×</button><div class="dialog-icon">♡</div><h2>ฟีเจอร์นี้กำลังพัฒนา</h2><p>ตอนนี้เราทำเฉพาะหน้า Homepage ก่อน ระบบลงประกาศและหน้ารายละเอียดจะเพิ่มในขั้นตอนถัดไป</p><button class="primary-button" id="dialogConfirm" type="button">เข้าใจแล้ว</button></dialog>
+  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
+  <dialog id="comingSoonDialog" aria-labelledby="dialogTitle"><button class="dialog-close" type="button" aria-label="ปิด" data-close-dialog>×</button><div class="dialog-icon" aria-hidden="true">♡</div><h2 id="dialogTitle">ฟีเจอร์นี้กำลังพัฒนา</h2><p>ระบบลงประกาศยังไม่เปิดใช้งาน ระหว่างนี้สามารถค้นหาและดูรายละเอียดประกาศตัวอย่างได้</p><button class="primary-button" type="button" data-close-dialog>เข้าใจแล้ว</button></dialog>
 </body>
 </html>

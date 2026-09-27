@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ | LightBaan</title>
+  <link rel="icon" type="image/jpeg" href="Logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <script src="auth.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#authMain">ข้ามไปยังเนื้อหา</a>
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="logo" href="index.html" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a href="index.html">หน้าแรก</a><a href="index.html?type=lost#cats">ตามหาแมว</a><a href="index.html?type=adopt#cats">หาบ้านให้น้อง</a><a href="index.html#about">เกี่ยวกับเรา</a></nav>
+      <div class="auth-actions"><a class="login-button" href="auth.html">เข้าสู่ระบบ</a><a class="register-button" href="auth.html?mode=register">ลงทะเบียน</a></div>
+    </div>
+  </header>
+  <main class="auth-page container" id="authMain">
+    <a class="back-link" href="index.html">← กลับหน้าแรก</a>
+    <div class="auth-layout">
+      <section class="auth-welcome" aria-labelledby="welcomeTitle"><p class="section-label">A HOME STARTS WITH YOU</p><h1 id="welcomeTitle">บ้านที่น้องรอ<br>อาจเริ่มต้นจากคุณ</h1><p>มาร่วมเป็นส่วนหนึ่งของชุมชน<br>ที่เชื่อว่าแมวทุกตัวควรมีโอกาสได้กลับบ้าน</p><img src="Logo.jpg" alt="LightBaan เพราะทุกชีวิตต้องการบ้าน"><div class="welcome-note"><span aria-hidden="true">♡</span><p>หนึ่งบัญชี หนึ่งความตั้งใจ<br><strong>เพื่อโอกาสที่ดีขึ้นของน้องแมว</strong></p></div></section>
+      <section class="auth-panel" aria-labelledby="formTitle">
+        <div class="auth-tabs" role="group" aria-label="เลือกเข้าสู่ระบบหรือลงทะเบียน"><button type="button" data-auth-mode="login" aria-pressed="true" class="active">เข้าสู่ระบบ</button><button type="button" data-auth-mode="register" aria-pressed="false">ลงทะเบียน</button></div>
+        <p class="section-label" id="formEyebrow">WELCOME BACK</p><h2 id="formTitle">ยินดีต้อนรับกลับบ้าน</h2><p class="auth-description" id="formDescription">เข้าสู่ระบบเพื่อเริ่มช่วยน้องไปด้วยกัน</p>
+        <p class="demo-notice">หน้าสมาชิกตัวอย่าง ยังไม่มีการสร้างบัญชีหรือส่งข้อมูล กรุณาใช้ข้อมูลสมมติในการทดลอง</p>
+        <form id="authForm" novalidate>
+          <div class="field register-only" hidden><label for="displayName">ชื่อที่แสดง</label><input id="displayName" name="displayName" type="text" autocomplete="nickname" maxlength="60" aria-describedby="displayNameError" disabled><small class="field-error" id="displayNameError"></small></div>
+          <div class="field"><label for="email">อีเมล</label><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required aria-describedby="emailError"><small class="field-error" id="emailError"></small></div>
+          <div class="field"><label for="password">รหัสผ่าน</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="current-password" required aria-describedby="passwordHint passwordError"><button class="password-toggle" type="button" data-password="password" aria-label="แสดงรหัสผ่าน" aria-pressed="false">แสดง</button></div><small id="passwordHint">ใช้รหัสผ่านสมมติสำหรับทดลองหน้านี้</small><small class="field-error" id="passwordError"></small></div>
+          <div class="field register-only" hidden><label for="confirmPassword">ยืนยันรหัสผ่าน</label><div class="password-field"><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" disabled aria-describedby="confirmPasswordError"><button class="password-toggle" type="button" data-password="confirmPassword" aria-label="แสดงรหัสผ่านยืนยัน" aria-pressed="false">แสดง</button></div><small class="field-error" id="confirmPasswordError"></small></div>
+          <p class="form-feedback" id="authFeedback" role="status" tabindex="-1" hidden></p>
+          <button class="primary-button auth-submit" id="authSubmit" type="submit" disabled>ทดลองเข้าสู่ระบบ</button>
+        </form>
+        <p class="auth-switch"><span id="switchText">ยังไม่มีบัญชี?</span> <button type="button" id="switchMode">ลงทะเบียน</button></p>
+        <noscript><p>กรุณาเปิด JavaScript เพื่อทดลองฟอร์ม หน้านี้ไม่สร้างบัญชีจริง</p></noscript>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
+</body>
+</html>

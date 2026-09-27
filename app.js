@@ -1,80 +1,123 @@
-const cats = [
-  { name: "มะลิ", type: "lost", detail: "ขาวดำ · เพศเมีย · มีปลอกคอสีเขียว", location: "บางนา, กรุงเทพมหานคร", image: "photo-1514888286974-6c03e2ca1dba" },
-  { name: "น้องลายสลิด", type: "found", detail: "ลายสลิดสีส้ม · เป็นมิตร · ไม่มีปลอกคอ", location: "อารีย์, กรุงเทพมหานคร", image: "photo-1573865526739-10659fec78a5" },
-  { name: "โมจิ", type: "adopt", detail: "สีเปอะ · อายุ 8 เดือน · ขี้อ้อน", location: "เมือง, นนทบุรี", image: "photo-1495360010541-f48722b34f7d" },
-  { name: "ถุงเงิน", type: "adopt", detail: "แมวลายสลิด · อายุ 1 ปี · ชอบเล่นกับคน", location: "ลาดพร้าว, กรุงเทพมหานคร", image: "photo-1518791841217-8f162f1e1131" },
-  { name: "ตาใส", type: "found", detail: "ขนสีส้มอ่อน · ตาสีฟ้า · เชื่อง", location: "บางเขน, กรุงเทพมหานคร", image: "photo-1511044568932-338cba0ad803" },
-  { name: "ชาร์โคล", type: "lost", detail: "สีเทา · เพศผู้ · ไม่สวมปลอกคอ", location: "ปากเกร็ด, นนทบุรี", image: "photo-1533738363-b7f9aef128ce" },
-];
-
-const typeLabels = { lost: "แมวหาย", found: "พบแมว", adopt: "หาบ้าน" };
+const data = window.LightBaanData;
 const catGrid = document.querySelector("#catGrid");
 const typeFilter = document.querySelector("#typeFilter");
-const searchInput = document.querySelector("#searchInput");
-const resultCount = document.querySelector("#resultCount");
-const emptyState = document.querySelector("#emptyState");
-const dialog = document.querySelector("#comingSoonDialog");
+const districtFilter = document.querySelector("#districtFilter");
+const imageUrl = (cat, width = 700) => `https://images.unsplash.com/${cat.image}?auto=format&fit=crop&w=${width}&q=85`;
 
 function createCatCard(cat) {
-  return `
-    <article class="cat-card">
-      <div class="cat-photo">
-        <img src="https://images.unsplash.com/${cat.image}?auto=format&fit=crop&w=700&q=80" alt="ภาพประกาศตัวอย่างของ ${cat.name}" loading="lazy">
-        <span class="status ${cat.type}">${typeLabels[cat.type]}</span>
-      </div>
-      <div class="cat-info">
-        <h3>${cat.name}</h3>
-        <p>${cat.detail}</p>
-        <div class="cat-meta">
-          <span>⌖ ${cat.location}</span>
-          <button type="button" data-coming-soon>ดูรายละเอียด →</button>
-        </div>
-      </div>
-    </article>`;
+  return `<article class="cat-card">
+    <a class="cat-photo" href="cat.html?id=${cat.id}" aria-label="ดูรายละเอียด ${cat.name}">
+      <img src="${imageUrl(cat)}" alt="ภาพประกอบประกาศ ${cat.name}" loading="lazy">
+      <span class="status ${cat.type}">${data.types[cat.type]}</span>
+    </a>
+    <div class="cat-info"><h3><a href="cat.html?id=${cat.id}">${cat.name}</a></h3><p>${cat.detail}</p>
+      <div class="cat-meta"><span>⌖ ${cat.location}</span><a href="cat.html?id=${cat.id}" aria-label="ดูรายละเอียด ${cat.name}">ดูรายละเอียด →</a></div>
+    </div>
+  </article>`;
 }
 
 function renderCats() {
-  const selectedType = typeFilter.value;
-  const keyword = searchInput.value.trim().toLocaleLowerCase("th");
-  const filteredCats = cats.filter((cat) => {
-    const matchesType = selectedType === "all" || cat.type === selectedType;
-    const searchableText = `${cat.name} ${cat.detail} ${cat.location}`.toLocaleLowerCase("th");
-    return matchesType && searchableText.includes(keyword);
-  });
-
-  catGrid.innerHTML = filteredCats.map(createCatCard).join("");
-  resultCount.textContent = `${filteredCats.length} ประกาศ`;
-  emptyState.hidden = filteredCats.length > 0;
-
-  document.querySelectorAll("[data-filter]").forEach((button) => {
-    button.classList.toggle("active", button.dataset.filter === selectedType);
+  const filtered = data.cats.filter(cat =>
+    (typeFilter.value === "all" || cat.type === typeFilter.value) &&
+    (districtFilter.value === "all" || cat.district === districtFilter.value)
+  );
+  catGrid.innerHTML = filtered.map(createCatCard).join("");
+  document.querySelector("#resultCount").textContent = `${filtered.length} ประกาศ`;
+  document.querySelector("#emptyState").hidden = filtered.length > 0;
+  document.querySelectorAll("[data-filter]").forEach(button => {
+    const active = button.dataset.filter === typeFilter.value;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
   });
 }
 
-document.querySelector("#searchForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  renderCats();
-  document.querySelector("#cats").scrollIntoView({ behavior: "smooth" });
-});
-
-document.querySelectorAll("[data-filter]").forEach((button) => {
-  button.addEventListener("click", () => {
-    typeFilter.value = button.dataset.filter;
+if (catGrid) {
+  for (const province of [...new Set(data.areas.map(area => area.province))]) {
+    const group = document.createElement("optgroup");
+    group.label = province;
+    data.areas.filter(area => area.province === province).forEach(area => group.append(new Option(area.label, area.id)));
+    districtFilter.append(group);
+  }
+  const initialType = new URLSearchParams(location.search).get("type");
+  if (Object.hasOwn(data.types, initialType)) typeFilter.value = initialType;
+  document.querySelector("#searchForm").addEventListener("submit", event => {
+    event.preventDefault();
+    renderCats();
+    document.querySelector("#cats").scrollIntoView({ behavior: "smooth" });
+  });
+  [typeFilter, districtFilter].forEach(select => select.addEventListener("change", renderCats));
+  document.querySelectorAll("[data-filter], [data-category]").forEach(control => {
+    control.addEventListener("click", () => {
+      typeFilter.value = control.dataset.filter || control.dataset.category;
+      renderCats();
+    });
+  });
+  document.querySelector("#resetFilters").addEventListener("click", () => {
+    typeFilter.value = "all";
+    districtFilter.value = "all";
     renderCats();
   });
+  renderCats();
+}
+
+const menu = document.querySelector("#menuButton");
+const nav = document.querySelector("#navLinks");
+if (menu && nav) {
+  menu.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menu.setAttribute("aria-expanded", String(open));
+    menu.setAttribute("aria-label", open ? "ปิดเมนู" : "เปิดเมนู");
+  });
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+    nav.classList.remove("open");
+    menu.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-label", "เปิดเมนู");
+  }));
+}
+
+const dialog = document.querySelector("#comingSoonDialog");
+document.addEventListener("click", event => {
+  if (event.target.closest("[data-coming-soon]") && dialog) dialog.showModal();
+  if (event.target.closest("[data-close-dialog]") && dialog) dialog.close();
 });
 
-document.querySelector("#menuButton").addEventListener("click", () => {
-  const navLinks = document.querySelector("#navLinks");
-  const isOpen = navLinks.classList.toggle("open");
-  document.querySelector("#menuButton").setAttribute("aria-expanded", isOpen);
-});
-
-document.addEventListener("click", (event) => {
-  if (event.target.closest("[data-coming-soon]")) dialog.showModal();
-});
-
-document.querySelector("#dialogClose").addEventListener("click", () => dialog.close());
-document.querySelector("#dialogConfirm").addEventListener("click", () => dialog.close());
-
-renderCats();
+const detailRoot = document.querySelector("#catDetail");
+if (detailRoot) {
+  const id = new URLSearchParams(location.search).get("id");
+  const cat = data.cats.find(item => item.id === id);
+  if (!cat) {
+    document.title = "ไม่พบประกาศ | LightBaan";
+    detailRoot.innerHTML = '<div class="not-found"><span class="dialog-icon">⌕</span><h1>ไม่พบประกาศนี้</h1><p>ลิงก์อาจไม่ถูกต้อง ลองเลือกน้องจากรายการในหน้าแรกอีกครั้ง</p><a class="primary-button" href="index.html#cats">กลับไปดูประกาศ</a></div>';
+  } else {
+    document.title = `${cat.name} — ${data.types[cat.type]} | LightBaan`;
+    const area = data.areas.find(item => item.id === cat.district);
+    const action = cat.type === "adopt" ? "สนใจรับเลี้ยงน้อง" : cat.type === "lost" ? "แจ้งเบาะแสให้ผู้ประกาศ" : "ติดต่อเพื่อยืนยันเจ้าของ";
+    detailRoot.innerHTML = `
+      <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html">หน้าแรก</a><span>/</span><a href="index.html#cats">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
+      <div class="detail-grid">
+        <div class="detail-photo-wrap"><img class="detail-photo" src="${imageUrl(cat, 1200)}" alt="ภาพประกอบประกาศ ${cat.name}"><p class="sample-note">ภาพประกอบและข้อมูลตัวอย่าง ไม่ใช่ประกาศรับเลี้ยงหรือแจ้งหายจริง</p></div>
+        <div class="detail-summary"><span class="status ${cat.type}">${data.types[cat.type]}</span><p class="section-label">EVERY CAT HAS A STORY</p><h1>${cat.name}</h1><p class="detail-location">⌖ ${area.label}, ${area.province}</p><p class="detail-intro">${cat.detail}</p>
+          <dl class="cat-facts"><div><dt>เพศ</dt><dd>${cat.sex}</dd></div><div><dt>อายุ</dt><dd>${cat.age}</dd></div><div><dt>สี / ลายขน</dt><dd>${cat.coat}</dd></div><div><dt>ลักษณะเด่น</dt><dd>${cat.trait}</dd></div></dl>
+          <div class="detail-actions"><button class="primary-button" type="button" data-coming-soon>${action}</button><button class="secondary-button" type="button" id="shareCat">คัดลอกลิงก์ประกาศ ↗</button></div>
+          <p class="share-feedback" id="shareFeedback" role="status"></p><div id="shareFallback" hidden><label for="shareLink">คัดลอกลิงก์นี้เพื่อส่งให้เพื่อน</label><input id="shareLink" type="url" readonly></div>
+        </div>
+      </div>
+      <div class="detail-bottom"><div class="detail-story"><h2>เรื่องราวของ${cat.name}</h2><p>${cat.story}</p><h2>ข้อมูลการดูแล</h2><p>${cat.care}</p><h2>${cat.type === "adopt" ? "ก่อนตัดสินใจรับเลี้ยง" : "ก่อนส่งต่อเบาะแส"}</h2><p>${cat.type === "adopt" ? "พูดคุยเรื่องพื้นที่อยู่อาศัย เวลาในการดูแล และความพร้อมของทุกคนในบ้าน นัดทำความรู้จักน้องกับผู้ดูแลก่อนตัดสินใจ" : "เปรียบเทียบภาพและลักษณะเฉพาะตัว พร้อมจดพื้นที่และเวลาที่พบ ข้อมูลที่คล้ายกันเป็นเพียงเบาะแส ผู้ประกาศต้องตรวจสอบและยืนยันอีกครั้ง"}</p></div>
+      <aside class="publisher"><p class="section-label">THE PERSON BEHIND THE POST</p><h2>ข้อมูลผู้ประกาศ</h2><div class="publisher-avatar" aria-hidden="true">♡</div><h3>${cat.publisher}</h3><p>พื้นที่: ${area.label}</p><p>ประกาศนี้ใช้สาธิตหน้าเว็บ จึงยังไม่มีหมายเลขโทรศัพท์หรือช่องทางติดต่อจริง</p><button class="secondary-button" type="button" data-coming-soon>ดูช่องทางติดต่อ</button></aside></div>
+      <section class="related-section" aria-labelledby="relatedTitle"><div class="section-heading"><div><p class="section-label">MORE LITTLE STORIES</p><h2 id="relatedTitle">รู้จักน้องตัวอื่น ๆ</h2></div><a class="text-link" href="index.html#cats">ดูทั้งหมด →</a></div><div class="cat-grid">${data.cats.filter(item => item.id !== cat.id).sort((a, b) => Number(b.type === cat.type) - Number(a.type === cat.type)).slice(0, 3).map(createCatCard).join("")}</div></section>`;
+    document.querySelector("#shareCat").addEventListener("click", async () => {
+      const url = new URL(`cat.html?id=${cat.id}`, location.href).href;
+      try {
+        await navigator.clipboard.writeText(url);
+        document.querySelector("#shareFeedback").textContent = "คัดลอกลิงก์แล้ว ส่งต่อให้เพื่อนได้เลย";
+      } catch {
+        document.querySelector("#shareFallback").hidden = false;
+        const input = document.querySelector("#shareLink");
+        input.value = url;
+        input.focus();
+        input.select();
+        document.querySelector("#shareFeedback").textContent = "เลือกและคัดลอกลิงก์ด้านล่างได้เลย";
+      }
+    });
+  }
+}

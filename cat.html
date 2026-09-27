@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายละเอียดแมว | LightBaan</title>
+  <link rel="icon" type="image/jpeg" href="Logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="cats.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#catDetail">ข้ามไปยังเนื้อหา</a>
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="logo" href="index.html" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a href="index.html">หน้าแรก</a><a href="index.html?type=lost#cats">ตามหาแมว</a><a href="index.html?type=adopt#cats">หาบ้านให้น้อง</a><a href="index.html#about">เกี่ยวกับเรา</a></nav>
+      <div class="auth-actions"><a class="login-button" href="auth.html">เข้าสู่ระบบ</a><a class="register-button" href="auth.html?mode=register">ลงทะเบียน</a></div>
+    </div>
+  </header>
+  <main class="container detail-page" id="catDetail"><noscript>กรุณาเปิด JavaScript เพื่อดูรายละเอียดประกาศ <a href="index.html">กลับหน้าแรก</a></noscript></main>
+  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
+  <dialog id="comingSoonDialog" aria-labelledby="dialogTitle"><button class="dialog-close" type="button" aria-label="ปิด" data-close-dialog>×</button><div class="dialog-icon" aria-hidden="true">♡</div><h2 id="dialogTitle">ฟีเจอร์นี้กำลังพัฒนา</h2><p>ประกาศนี้เป็นข้อมูลตัวอย่าง ระบบติดต่อผู้ประกาศและส่งเบาะแสยังไม่เปิดใช้งาน</p><button class="primary-button" type="button" data-close-dialog>เข้าใจแล้ว</button></dialog>
+</body>
+</html>
