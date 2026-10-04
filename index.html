@@ -30,11 +30,12 @@
           <p class="eyebrow"><span></span> พื้นที่เล็ก ๆ ของคนรักแมว</p>
           <h1>ทุกอุ้งเท้า<br>ควรมีทาง<span>กลับบ้าน</span></h1>
           <p class="hero-description">ไม่ว่าจะกำลังตามหา พบเจอ หรืออยากมอบบ้านให้น้อง ให้ LightBaan ช่วยเชื่อมเรื่องราวของคุณเข้าด้วยกัน</p>
-          <div class="hero-actions"><button class="primary-button" type="button" data-coming-soon>แจ้งแมวหาย / พบแมว ↗</button><a class="text-link" href="#cats" data-category="adopt">อยากรับเลี้ยงน้อง <span>→</span></a></div>
+          <div class="hero-actions"><a class="primary-button" href="report.html">แจ้งแมวหาย ↗</a><button class="text-link" type="button" data-coming-soon>แจ้งพบแมว</button><a class="text-link" href="#cats" data-category="adopt">อยากรับเลี้ยงน้อง <span>→</span></a></div>
           <div class="kind-note"><div class="cat-faces" aria-hidden="true">🐈 🐈‍⬛ 🐈</div><p>เพราะบ้านที่อบอุ่น<br><strong>เริ่มต้นจากคนที่ใส่ใจ</strong></p></div>
         </div>
         <div class="hero-image-wrap">
           <img class="hero-image" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85" alt="แมวสีขาวดำกำลังมองกล้อง" fetchpriority="high">
+          <p class="image-credit hero-credit">ที่มาภาพ: <a href="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba" target="_blank" rel="noopener noreferrer" aria-label="เปิดภาพแมวต้นทางจาก Unsplash (แท็บใหม่)">Unsplash ↗</a></p>
           <div class="image-note"><span>♡</span><p>บ้านของใครบางคน<br><strong>อาจเป็นคุณก็ได้นะ</strong></p></div>
         </div>
       </div>
@@ -43,7 +44,8 @@
       <form class="container search-box" id="searchForm">
         <div class="search-heading"><strong>เริ่มต้นตามหาน้อง</strong><span>เรื่องราวดี ๆ อาจอยู่ใกล้คุณ</span></div>
         <label for="typeFilter">ประเภทประกาศ<select id="typeFilter"><option value="all">ประกาศทั้งหมด</option><option value="lost">แมวหาย</option><option value="found">พบแมว</option><option value="adopt">หาบ้าน</option></select></label>
-        <label for="districtFilter">เขต / อำเภอ<select id="districtFilter"><option value="all">ทุกพื้นที่</option></select></label>
+        <label for="provinceFilter">จังหวัด<select id="provinceFilter"><option value="all">ทุกจังหวัด</option></select></label>
+        <label for="districtFilter">เขต / อำเภอ<select id="districtFilter" disabled><option value="all">เลือกจังหวัดก่อน</option></select></label>
         <button class="primary-button" type="submit">ค้นหาน้อง</button>
       </form>
     </section>

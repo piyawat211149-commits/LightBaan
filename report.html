@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แจ้งแมวหาย | LightBaan</title>
+  <link rel="icon" type="image/jpeg" href="Logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="cats.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="report.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#reportMain">ข้ามไปยังเนื้อหา</a>
+  <header class="site-header">
+    <div class="container navbar">
+      <a class="logo" href="index.html" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
+      <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a href="index.html">หน้าแรก</a><a href="index.html?type=lost#cats">ตามหาแมว</a><a href="index.html?type=adopt#cats">หาบ้านให้น้อง</a><a href="index.html#about">เกี่ยวกับเรา</a></nav>
+      <div class="auth-actions"><a class="login-button" href="auth.html">เข้าสู่ระบบ</a><a class="register-button" href="auth.html?mode=register">ลงทะเบียน</a></div>
+    </div>
+  </header>
+  <main class="container report-page" id="reportMain">
+    <a class="back-link" href="index.html">← กลับหน้าแรก</a>
+    <p class="section-label">LET’S BRING THEM HOME</p>
+    <h1>แจ้งแมวหาย</h1>
+    <p class="report-lead">ทุกเบาะแสมีความหมาย เริ่มจากข้อมูลเล็ก ๆ ที่ช่วยให้คนจดจำน้องได้</p>
+    <div class="report-layout">
+      <form id="reportForm" class="report-form">
+        <p class="demo-notice">ฟอร์มตัวอย่าง ข้อมูลและรูปอยู่ในหน้านี้เท่านั้น ยังไม่บันทึกหรือเผยแพร่ประกาศ กรุณาใช้ข้อมูลสมมติ ช่องที่มี * จำเป็นต้องกรอก</p>
+        <fieldset><legend>01 · ข้อมูลของน้อง</legend>
+          <div class="report-fields">
+            <div class="field"><label for="catName">ชื่อแมว *</label><input id="catName" type="text" required maxlength="60" placeholder="เช่น มะลิ"></div>
+            <div class="field"><label for="catSex">เพศ *</label><select id="catSex" required><option value="">เลือกเพศ</option><option>เพศผู้</option><option>เพศเมีย</option><option>ไม่ทราบ</option></select></div>
+            <div class="field"><label for="catAge">อายุโดยประมาณ</label><input id="catAge" maxlength="40" placeholder="เช่น 1 ปี หรือไม่ทราบ"></div>
+            <div class="field"><label for="catCoat">สี / ลายขน *</label><input id="catCoat" type="text" required maxlength="100" placeholder="เช่น ขาวดำ หางสีดำ"></div>
+          </div>
+          <div class="field"><label for="catTraits">จุดสังเกต / ลักษณะเด่น *</label><textarea id="catTraits" rows="3" required maxlength="1000" placeholder="ปลอกคอ รอยแต้ม นิสัย หรือชื่อที่น้องตอบสนอง"></textarea></div>
+          <div class="field"><label for="catPhoto">รูปแมว *</label><input id="catPhoto" type="file" accept="image/jpeg,image/png,image/webp" required aria-describedby="photoHelp photoError"><small id="photoHelp">เลือกภาพ JPG, PNG หรือ WebP 1 รูป ขนาดไม่เกิน 5 MB</small><small id="photoError" class="field-error" role="alert"></small><img id="photoPreview" class="report-photo" alt="ตัวอย่างรูปแมวที่เลือก" hidden></div>
+        </fieldset>
+        <fieldset><legend>02 · น้องหายที่ไหน</legend>
+          <div class="report-fields">
+            <div class="field"><label for="lostDate">วันที่หาย *</label><input id="lostDate" type="date" required ></div>
+            <div class="field"><label for="lostTime">เวลาที่พบครั้งสุดท้าย (ถ้าทราบ)</label><input id="lostTime" type="time"></div>
+            <div class="field"><label for="lostProvince">จังหวัด *</label><select id="lostProvince" required><option value="">เลือกจังหวัด</option></select></div>
+            <div class="field"><label for="lostDistrict">เขต / อำเภอ *</label><select id="lostDistrict" required disabled><option value="">เลือกจังหวัดก่อน</option></select></div>
+          </div>
+          <div class="field"><label for="lostPlace">บริเวณที่หาย / จุดสังเกต *</label><input id="lostPlace" type="text" required maxlength="200" placeholder="เช่น ใกล้สวนสาธารณะ ซอย หรือหมู่บ้าน"></div>
+          <div class="field"><label for="lostStory">รายละเอียดเพิ่มเติม</label><textarea id="lostStory" rows="3" maxlength="1500" placeholder="เหตุการณ์ก่อนหาย หรือพื้นที่ที่น้องอาจไป"></textarea></div>
+        </fieldset>
+        <fieldset><legend>03 · ช่องทางติดต่อ</legend>
+          <div class="report-fields">
+            <div class="field"><label for="contactName">ชื่อผู้ติดต่อ *</label><input id="contactName" type="text" required maxlength="60"></div>
+            <div class="field"><label for="contactPhone">เบอร์โทรศัพท์ *</label><input id="contactPhone" type="tel" required inputmode="tel" maxlength="20" placeholder="เช่น 0812345678"></div>
+          </div>
+          <div class="field"><label for="contactLine">LINE ID (ถ้ามี)</label><input id="contactLine" maxlength="80"></div>
+        </fieldset>
+        <button class="primary-button" id="previewReport" type="submit" disabled>ดูตัวอย่างประกาศ →</button>
+        <noscript><p>กรุณาเปิด JavaScript เพื่อทดลองกรอกและดูตัวอย่างประกาศ</p></noscript>
+      </form>
+      <aside class="report-tips"><span class="dialog-icon" aria-hidden="true">♡</span><h2>ช่วยให้คนจำ<br>น้องได้ง่ายขึ้น</h2><ul><li>เลือกรูปที่เห็นหน้าและลายขนชัดเจน</li><li>ระบุปลอกคอหรือจุดสังเกตที่แตกต่าง</li><li>บอกวันและบริเวณที่พบครั้งสุดท้าย</li></ul><p>รองรับกรุงเทพฯ นนทบุรี และปทุมธานี</p><p class="sample-note">ปิดหรือรีเฟรชหน้านี้ ข้อมูลที่กรอกจะหายไป</p></aside>
+    </div>
+    <section class="report-result" id="reportPreview" aria-labelledby="previewTitle" hidden>
+      <p class="section-label">PREVIEW ONLY</p><h2 id="previewTitle" tabindex="-1">ตัวอย่างประกาศของคุณ</h2>
+      <p class="demo-notice">ยังไม่ได้เผยแพร่ประกาศ และยังไม่มีใครเห็นข้อมูลนี้ผ่านเว็บไซต์</p>
+      <div class="report-result-grid"><img id="resultPhoto" class="report-photo" alt="รูปแมวในตัวอย่างประกาศ"><div><span class="status lost">แมวหาย</span><h3 id="resultName"></h3><p id="resultTraits"></p><p id="resultArea"></p><p id="resultDate"></p><p id="resultPlace"></p><p id="resultStory"></p><p id="resultContact"></p></div></div>
+      <button class="secondary-button" id="editReport" type="button">← กลับไปแก้ไขข้อมูล</button>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
+</body>
+</html>
