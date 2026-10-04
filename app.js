@@ -2,7 +2,10 @@ const data = window.LightBaanData;
 const catGrid = document.querySelector("#catGrid");
 const typeFilter = document.querySelector("#typeFilter");
 const districtFilter = document.querySelector("#districtFilter");
+const provinceFilter = document.querySelector("#provinceFilter");
 const imageUrl = (cat, width = 700) => `https://images.unsplash.com/${cat.image}?auto=format&fit=crop&w=${width}&q=85`;
+// อ้างอิง URL ของภาพที่ใช้จริง ไม่ระบุชื่อช่างภาพหากยังไม่ได้ยืนยัน
+const imageCredit = cat => `<p class="image-credit">ที่มาภาพ: <a href="https://images.unsplash.com/${cat.image}" target="_blank" rel="noopener noreferrer" aria-label="เปิดภาพต้นทางของ ${cat.name} จาก Unsplash (แท็บใหม่)">Unsplash ↗</a></p>`;
 
 function createCatCard(cat) {
   return `<article class="cat-card">
@@ -10,7 +13,7 @@ function createCatCard(cat) {
       <img src="${imageUrl(cat)}" alt="ภาพประกอบประกาศ ${cat.name}" loading="lazy">
       <span class="status ${cat.type}">${data.types[cat.type]}</span>
     </a>
-    <div class="cat-info"><h3><a href="cat.html?id=${cat.id}">${cat.name}</a></h3><p>${cat.detail}</p>
+    <div class="cat-info">${imageCredit(cat)}<h3><a href="cat.html?id=${cat.id}">${cat.name}</a></h3><p>${cat.detail}</p>
       <div class="cat-meta"><span>⌖ ${cat.location}</span><a href="cat.html?id=${cat.id}" aria-label="ดูรายละเอียด ${cat.name}">ดูรายละเอียด →</a></div>
     </div>
   </article>`;
@@ -19,6 +22,7 @@ function createCatCard(cat) {
 function renderCats() {
   const filtered = data.cats.filter(cat =>
     (typeFilter.value === "all" || cat.type === typeFilter.value) &&
+    (provinceFilter.value === "all" || data.areas.find(area => area.id === cat.district)?.province === provinceFilter.value) &&
     (districtFilter.value === "all" || cat.district === districtFilter.value)
   );
   catGrid.innerHTML = filtered.map(createCatCard).join("");
@@ -31,13 +35,24 @@ function renderCats() {
   });
 }
 
-if (catGrid) {
-  for (const province of [...new Set(data.areas.map(area => area.province))]) {
-    const group = document.createElement("optgroup");
-    group.label = province;
-    data.areas.filter(area => area.province === province).forEach(area => group.append(new Option(area.label, area.id)));
-    districtFilter.append(group);
+function updateDistricts() {
+  const selected = provinceFilter.value !== "all";
+  districtFilter.replaceChildren(new Option(selected ? "ทุกเขต / อำเภอ" : "เลือกจังหวัดก่อน", "all"));
+  districtFilter.disabled = !selected;
+  if (selected) {
+    data.areas.filter(area => area.province === provinceFilter.value)
+      .sort((a, b) => a.label.localeCompare(b.label, "th"))
+      .forEach(area => districtFilter.append(new Option(area.label, area.id)));
   }
+}
+
+if (catGrid) {
+  [...new Set(data.areas.map(area => area.province))].forEach(province => provinceFilter.append(new Option(province, province)));
+  updateDistricts();
+  provinceFilter.addEventListener("change", () => {
+    updateDistricts();
+    renderCats();
+  });
   const initialType = new URLSearchParams(location.search).get("type");
   if (Object.hasOwn(data.types, initialType)) typeFilter.value = initialType;
   document.querySelector("#searchForm").addEventListener("submit", event => {
@@ -54,7 +69,8 @@ if (catGrid) {
   });
   document.querySelector("#resetFilters").addEventListener("click", () => {
     typeFilter.value = "all";
-    districtFilter.value = "all";
+    provinceFilter.value = "all";
+    updateDistricts();
     renderCats();
   });
   renderCats();
@@ -95,7 +111,7 @@ if (detailRoot) {
     detailRoot.innerHTML = `
       <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html">หน้าแรก</a><span>/</span><a href="index.html#cats">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
       <div class="detail-grid">
-        <div class="detail-photo-wrap"><img class="detail-photo" src="${imageUrl(cat, 1200)}" alt="ภาพประกอบประกาศ ${cat.name}"><p class="sample-note">ภาพประกอบและข้อมูลตัวอย่าง ไม่ใช่ประกาศรับเลี้ยงหรือแจ้งหายจริง</p></div>
+        <div class="detail-photo-wrap"><img class="detail-photo" src="${imageUrl(cat, 1200)}" alt="ภาพประกอบประกาศ ${cat.name}">${imageCredit(cat)}<p class="sample-note">ภาพประกอบและข้อมูลตัวอย่าง ไม่ใช่ประกาศรับเลี้ยงหรือแจ้งหายจริง</p></div>
         <div class="detail-summary"><span class="status ${cat.type}">${data.types[cat.type]}</span><p class="section-label">EVERY CAT HAS A STORY</p><h1>${cat.name}</h1><p class="detail-location">⌖ ${area.label}, ${area.province}</p><p class="detail-intro">${cat.detail}</p>
           <dl class="cat-facts"><div><dt>เพศ</dt><dd>${cat.sex}</dd></div><div><dt>อายุ</dt><dd>${cat.age}</dd></div><div><dt>สี / ลายขน</dt><dd>${cat.coat}</dd></div><div><dt>ลักษณะเด่น</dt><dd>${cat.trait}</dd></div></dl>
           <div class="detail-actions"><button class="primary-button" type="button" data-coming-soon>${action}</button><button class="secondary-button" type="button" id="shareCat">คัดลอกลิงก์ประกาศ ↗</button></div>
