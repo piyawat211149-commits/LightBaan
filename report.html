@@ -9,7 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261013-map">
+  <!-- Leaflet requires an explicit height, even if an older stylesheet is cached. -->
+  <style>
+    #lostMap, #resultMap { height: 330px; width: 100%; position: relative; z-index: 0; }
+  </style>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
   <script src="report-map.js" defer></script>
   <script src="cats.js" defer></script>

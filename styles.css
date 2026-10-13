@@ -347,6 +347,14 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
   .report-form, .report-result, .report-tips { padding: 22px; }
   .report-form > .primary-button { width: 100%; }
 }
+.location-picker { margin: 20px 0 28px; }
+.location-picker p, .location-picker small { font-size: 13px; line-height: 1.8; }
+.report-map { height: 330px; width: 100%; border: 1px solid var(--border); border-radius: 12px; z-index: 0; background: #e8ede6; }
+.map-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.map-actions button:disabled { opacity: .5; cursor: not-allowed; }
+.lost-pin { background: #c74827; color: white; border: 3px solid white; border-radius: 50%; box-shadow: 0 2px 8px #0005; text-align: center; line-height: 24px; }
+#resultMapSection { margin-bottom: 28px; }
+.report-map .leaflet-control-attribution { font-size: 10px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
