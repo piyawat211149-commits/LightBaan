@@ -8,7 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  <script src="report-map.js" defer></script>
   <script src="cats.js" defer></script>
   <script src="app.js" defer></script>
   <script src="report.js" defer></script>
@@ -49,6 +52,15 @@
             <div class="field"><label for="lostDistrict">เขต / อำเภอ *</label><select id="lostDistrict" required disabled><option value="">เลือกจังหวัดก่อน</option></select></div>
           </div>
           <div class="field"><label for="lostPlace">บริเวณที่หาย / จุดสังเกต *</label><input id="lostPlace" type="text" required maxlength="200" placeholder="เช่น ใกล้สวนสาธารณะ ซอย หรือหมู่บ้าน"></div>
+          <section class="location-picker" aria-labelledby="mapTitle">
+            <h3 id="mapTitle">ปักหมุดจุดที่พบครั้งสุดท้าย (ไม่บังคับ)</h3>
+            <p id="mapHelp">ลากเพื่อเลื่อนแผนที่ ใช้ล้อเมาส์หรือสองนิ้วถ่าง/หุบเพื่อซูม กดบนแผนที่เพื่อปักหมุดและลากหมุดเพื่อย้าย หรือกด “ปักหมุดกลางแผนที่” เลือกบริเวณใกล้เคียงได้ ไม่จำเป็นต้องระบุตำแหน่งบ้าน</p>
+            <div id="lostMap" class="report-map" aria-label="แผนที่เลือกจุดที่พบแมวครั้งสุดท้าย" aria-describedby="mapHelp"></div>
+            <p id="mapStatus" role="status">กำลังโหลดแผนที่… หากโหลดไม่ได้ ยังกรอกบริเวณที่หายเป็นข้อความได้</p>
+            <div class="map-actions"><button type="button" class="secondary-button" id="pinMapCenter" disabled>ปักหมุดกลางแผนที่</button><button type="button" class="secondary-button" id="clearMapPin" disabled>ลบหมุด</button></div>
+            <small>เลือกจังหวัด แล้วเลือกเขต/อำเภอเพื่อซูมไปบริเวณนั้น จากนั้นปักหมุดจุดที่พบแมวครั้งสุดท้าย หมุดไม่เปลี่ยนเขต/อำเภอให้อัตโนมัติ</small>
+            <small>พิกัดอ้างอิงพื้นที่: <a href="https://github.com/open-admin-data/thailand-administrative-divisions" target="_blank" rel="noopener noreferrer">Open Admin Data</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) ปรับเป็นจุดสำหรับซูมแผนที่ ไม่ใช่เส้นแบ่งเขต</small>
+          </section>
           <div class="field"><label for="lostStory">รายละเอียดเพิ่มเติม</label><textarea id="lostStory" rows="3" maxlength="1500" placeholder="เหตุการณ์ก่อนหาย หรือพื้นที่ที่น้องอาจไป"></textarea></div>
         </fieldset>
         <fieldset><legend>03 · ช่องทางติดต่อ</legend>
@@ -67,6 +79,7 @@
       <p class="section-label">PREVIEW ONLY</p><h2 id="previewTitle" tabindex="-1">ตัวอย่างประกาศของคุณ</h2>
       <p class="demo-notice">ยังไม่ได้เผยแพร่ประกาศ และยังไม่มีใครเห็นข้อมูลนี้ผ่านเว็บไซต์</p>
       <div class="report-result-grid"><img id="resultPhoto" class="report-photo" alt="รูปแมวในตัวอย่างประกาศ"><div><span class="status lost">แมวหาย</span><h3 id="resultName"></h3><p id="resultTraits"></p><p id="resultArea"></p><p id="resultDate"></p><p id="resultPlace"></p><p id="resultStory"></p><p id="resultContact"></p></div></div>
+      <section id="resultMapSection" hidden aria-labelledby="resultMapTitle"><h3 id="resultMapTitle">จุดที่พบครั้งสุดท้าย</h3><div id="resultMap" class="report-map" aria-label="แผนที่จุดที่พบครั้งสุดท้าย"></div><p id="resultCoordinates"></p><a id="resultDirections" class="text-link" target="_blank" rel="noopener noreferrer">เปิดเส้นทางใน Google Maps ↗</a></section>
       <button class="secondary-button" id="editReport" type="button">← กลับไปแก้ไขข้อมูล</button>
     </section>
   </main>
