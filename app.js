@@ -34,7 +34,7 @@ function renderCats() {
 
 function updateDistricts() {
   const selected = provinceFilter.value !== "all";
-  districtFilter.replaceChildren(new Option(selected ? "ทุกเขต / อำเภอ" : "เลือกจังหวัดก่อน", "all"));
+  districtFilter.replaceChildren(new Option(selected ? "ทุกอำเภอ" : "เลือกจังหวัดก่อน", "all"));
   districtFilter.disabled = !selected;
   if (selected) {
     data.areas.filter(area => area.province === provinceFilter.value)
@@ -44,7 +44,7 @@ function updateDistricts() {
 }
 
 if (catGrid) {
-  [...new Set(data.areas.map(area => area.province))].forEach(province => provinceFilter.append(new Option(province, province)));
+  provinceFilter.replaceChildren(new Option("ปทุมธานี", "ปทุมธานี"));
   updateDistricts();
   provinceFilter.addEventListener("change", () => {
     updateDistricts();
@@ -66,7 +66,7 @@ if (catGrid) {
   });
   document.querySelector("#resetFilters").addEventListener("click", () => {
     typeFilter.value = "all";
-    provinceFilter.value = "all";
+    provinceFilter.value = "ปทุมธานี";
     updateDistricts();
     renderCats();
   });

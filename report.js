@@ -9,14 +9,15 @@ let photoVersion = 0;
 const reportValue = id => document.getElementById(id).value.trim();
 const today = new Date();
 document.querySelector("#lostDate").max = [today.getFullYear(), String(today.getMonth() + 1).padStart(2, "0"), String(today.getDate()).padStart(2, "0")].join("-");
-[...new Set(window.LightBaanData.areas.map(area => area.province))].forEach(province => reportProvince.append(new Option(province, province)));
+reportProvince.replaceChildren(new Option("ปทุมธานี", "ปทุมธานี"));
 reportProvince.addEventListener("change", () => {
-  reportDistrict.replaceChildren(new Option(reportProvince.value ? "เลือกเขต / อำเภอ" : "เลือกจังหวัดก่อน", ""));
+  reportDistrict.replaceChildren(new Option(reportProvince.value ? "เลือกอำเภอ" : "เลือกจังหวัดก่อน", ""));
   reportDistrict.disabled = !reportProvince.value;
   window.LightBaanData.areas.filter(area => area.province === reportProvince.value)
     .sort((a, b) => a.label.localeCompare(b.label, "th"))
     .forEach(area => reportDistrict.append(new Option(area.label, area.id)));
 });
+reportProvince.dispatchEvent(new Event("change"));
 reportPhoto.addEventListener("change", async () => {
   const version = ++photoVersion;
   if (photoUrl) URL.revokeObjectURL(photoUrl);
@@ -72,6 +73,7 @@ reportForm.addEventListener("submit", event => {
   put("resultContact", "ติดต่อ " + reportValue("contactName") + " · " + reportValue("contactPhone") + (reportValue("contactLine") ? " · LINE: " + reportValue("contactLine") : ""));
   document.querySelector("#resultPhoto").src = photoUrl;
   reportPreview.hidden = false;
+  window.LightBaanMap?.renderPreview();
   document.querySelector("#previewTitle").focus();
   reportPreview.scrollIntoView({ behavior: "smooth", block: "start" });
 });
