@@ -244,6 +244,10 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
 .form-feedback { background: #edf0e3; padding: 14px; border-radius: 8px; color: #536345; font-size: 12px; line-height: 1.85; }
 
 /* Individual cat detail */
+.detail-map-section { margin-top: 35px; padding: 24px; border: 1px solid var(--border); border-radius: 20px; background: #fffdf9; }
+.detail-map-section h2 { margin: 8px 0; }
+#catMap { height: 350px; width: 100%; z-index: 0; border-radius: 14px; background: #e8ede6; }
+.cat-map-pin { display: grid; place-items: center; color: white; background: #ff7043; border: 3px solid white; border-radius: 50%; box-shadow: 0 2px 8px #0005; }
 .detail-page { padding-bottom: 70px; }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; padding-block: 28px; color: var(--muted); }
 .breadcrumb a:hover { color: var(--orange); }
