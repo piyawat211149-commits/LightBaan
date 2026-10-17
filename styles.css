@@ -403,3 +403,31 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
 .cat-photo, .cat-info a, .filter-buttons button { touch-action: manipulation; }
 .cat-meta a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 8px; flex-shrink: 0; }
 .cat-meta { align-items: center; }
+
+/* Homepage: clear actions and a dedicated adoption story section. */
+.home-page .hero {padding-bottom:62px;background:radial-gradient(ellipse at 85% 25%,#f5e7d4 0,transparent 55%)}
+.quick-help {padding-bottom:34px}
+.quick-heading {margin-bottom:22px}.quick-heading h2 {margin:6px 0;font-size:26px}
+.quick-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.quick-card {display:block;padding:26px;border:1px solid var(--border);border-radius:20px;background:var(--white)}
+.quick-card h3 {font-size:21px;margin:16px 0 8px}.quick-card p {font-size:14px;line-height:1.8;color:var(--muted);margin:0 0 22px}
+.quick-icon {display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#ffeadf;color:#a84324}.quick-icon svg {width:25px;height:25px}
+.quick-1 .quick-icon {background:#edf1e5;color:#4e6845}.quick-2 .quick-icon {background:#fff0d1;color:#86611e}
+.quick-link {display:flex;justify-content:space-between;font-size:14px;font-weight:700;border-top:1px solid var(--border);padding-top:16px}
+.home-page #cats {padding-top:32px;padding-bottom:56px}
+.success-section {background:#eaf0e3;border-block:1px solid #d6e0cd;padding:48px 0;margin-bottom:56px}
+.success-section .section-label {color:#4c6744}.success-section .sample-note {color:#58664e}
+.success-layout {display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center;margin-top:26px}
+.success-copy {max-width:420px}.success-heart {display:block;font-size:48px;line-height:1;color:#597550}
+.success-copy h3 {font-size:34px;line-height:1.45;letter-spacing:-.6px;margin:15px 0;color:#354b30}
+.success-copy p {font-size:15px;line-height:1.9;color:#52634b}.success-button {display:inline-flex;align-items:center;min-height:46px;padding:10px 20px;border-radius:10px;background:#4c6744;color:#fff;font-weight:600;margin-top:10px}
+.success-layout .cat-grid {grid-template-columns:1fr;gap:22px}.success-layout .cat-photo {height:280px}
+.home-page .how-section {background:var(--white);border:1px solid var(--border);border-radius:24px;padding:32px;margin-bottom:45px}
+@media(hover:hover) and (pointer:fine){.quick-card:hover {border-color:#b79476;box-shadow:0 8px 24px #513b320c}.success-button:hover {background:#354b30}}
+.quick-card:focus-visible,.success-button:focus-visible {outline:3px solid #a84324;outline-offset:4px}
+@media(max-width:720px){.home-page .hero {padding-bottom:38px}.quick-grid {grid-template-columns:1fr;gap:12px}.quick-card {padding:20px}.quick-card h3 {margin-top:12px}.quick-card p {margin-bottom:14px}.quick-heading h2 {font-size:23px}.success-layout {grid-template-columns:1fr;gap:25px}.success-copy h3 {font-size:28px}.success-section {padding:32px 0;margin-bottom:35px}.home-page .how-section {padding:22px}.success-layout .cat-photo {height:260px}}
+
+/* Click-operated posting navigation, also usable with a keyboard. */
+.nav-post {position:relative}.nav-post summary {list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-weight:500}.nav-post summary::-webkit-details-marker {display:none}.nav-post summary.active,.nav-post[open] summary {color:#a84324}.nav-post summary:focus-visible {outline:2px solid var(--orange);outline-offset:4px;border-radius:4px}
+.nav-post-options {position:absolute;top:100%;left:0;min-width:210px;padding:8px;background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 28px #513b321a;z-index:20}.nav-post-options a {display:flex;align-items:center;min-height:44px;padding:10px 14px;border-radius:7px}.nav-post-options a:hover,.nav-post-options a:focus-visible {background:var(--cream);color:#a84324}
+@media(max-width:720px){.nav-post summary {padding:11px 4px;border-top:1px solid var(--border)}.nav-post-options {position:static;box-shadow:none;margin:0 0 8px;padding:4px 10px}.nav-links .nav-post-options a {border-top:0;padding:10px 12px}}

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="styles.css?v=20261018-nav">
+  <link rel="stylesheet" href="styles.css?v=20261018-menu">
   <!-- Leaflet requires an explicit height, even if an older stylesheet is cached. -->
   <style>
     #lostMap, #resultMap { height: 330px; width: 100%; position: relative; z-index: 0; }
@@ -19,7 +19,7 @@
   <script src="cats.js?v=20261018-nav" defer></script>
   <script src="demo.js?v=20261018-nav" defer></script>
   <script src="adoption.js?v=20261018-nav" defer></script>
-  <script src="app.js?v=20261018-nav" defer></script>
+  <script src="app.js?v=20261018-menu" defer></script>
   <script src="report.js?v=20261018-nav" defer></script>
   <script src="report-demo.js?v=20261018-nav" defer></script>
 </head>
@@ -27,14 +27,14 @@
   <a class="skip-link" href="#reportMain">ข้ามไปยังเนื้อหา</a>
   <header class="site-header">
     <div class="container navbar">
-      <a class="logo" href="index.html?v=20261018-nav" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
+      <a class="logo" href="index.html?v=20261018-menu" aria-label="LightBaan หน้าแรก"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a>
       <button class="menu-button" id="menuButton" type="button" aria-label="เปิดเมนู" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
-      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a href="index.html?v=20261018-nav">หน้าแรก</a><a href="cats.html?type=lost#cats">ตามหาแมว</a><a href="cats.html?type=adopt#cats">หาบ้านให้น้อง</a><a href="index.html?v=20261018-nav#about">เกี่ยวกับเรา</a></nav>
+      <nav class="nav-links" id="navLinks" aria-label="เมนูหลัก"><a href="index.html?v=20261018-menu">หน้าแรก</a><a href="cats.html">ดูแมวทั้งหมด</a><details class="nav-post"><summary class="active">ลงประกาศ <span aria-hidden="true">▾</span></summary><div class="nav-post-options"><a href="report.html">แจ้งแมวหาย</a><a href="report.html?type=found">แจ้งพบแมว</a><a href="report.html?type=adopt">ลงประกาศหาบ้าน</a></div></details><a href="index.html?v=20261018-menu#about">เกี่ยวกับเรา</a></nav>
       <div class="auth-actions"><a class="login-button" href="auth.html">เข้าสู่ระบบ</a><a class="register-button" href="auth.html?mode=register">ลงทะเบียน</a></div>
     </div>
   </header>
   <main class="container report-page" id="reportMain">
-    <a class="back-link" href="index.html?v=20261018-nav">← กลับหน้าแรก</a>
+    <a class="back-link" href="index.html?v=20261018-menu">← กลับหน้าแรก</a>
     <p class="section-label">LET’S BRING THEM HOME</p>
     <h1 id="reportHeading">แจ้งแมวหาย</h1><nav class="demo-types" aria-label="ประเภทประกาศ"><a href="report.html?type=lost">แจ้งแมวหาย</a><a href="report.html?type=found">แจ้งพบแมว</a><a href="report.html?type=adopt">หาบ้านให้น้อง</a></nav>
     <p class="report-lead">ทุกเบาะแสมีความหมาย เริ่มจากข้อมูลเล็ก ๆ ที่ช่วยให้คนจดจำน้องได้</p>
@@ -90,6 +90,6 @@
       <button class="primary-button" type="button" id="saveReport">บันทึกประกาศจำลอง</button><p role="status" id="saveStatus"></p><button class="secondary-button" id="editReport" type="button">← กลับไปแก้ไขข้อมูล</button>
     </section>
   </main>
-  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html?v=20261018-nav"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
+  <footer class="site-footer"><div class="container footer-content"><a class="logo" href="index.html?v=20261018-menu"><img class="logo-image" src="Logo.jpg" alt=""><span>Light<strong>Baan</strong></span></a><p>พื้นที่แห่งความหวัง เพื่อพาน้องแมวกลับบ้าน</p><small>© 2026 LightBaan</small></div></footer>
 </body>
 </html>

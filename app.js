@@ -115,7 +115,7 @@ if (detailRoot) {
     const area = data.areas.find(item => item.id === cat.district);
     const action = cat.type === "adopt" ? "สนใจรับเลี้ยงน้อง" : cat.type === "lost" ? "แจ้งเบาะแสให้ผู้ประกาศ" : "ติดต่อเพื่อยืนยันเจ้าของ";
     detailRoot.innerHTML = `
-      <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html?v=20261018-nav">หน้าแรก</a><span>/</span><a href="cats.html">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
+      <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html?v=20261018-menu">หน้าแรก</a><span>/</span><a href="cats.html">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
       <div class="detail-grid">
         <div class="detail-photo-wrap"><img class="detail-photo" src="${cat.image}" style="object-position: ${cat.imagePosition}" alt="ภาพประกอบประกาศ ${cat.name}"><p class="sample-note">ภาพประกอบและข้อมูลตัวอย่าง ไม่ใช่ประกาศรับเลี้ยงหรือแจ้งหายจริง</p></div>
         <div class="detail-summary"><span class="status ${cat.type} ${window.LightBaanAdoption.lifecycle(cat)}">${window.LightBaanAdoption.statusLabel(cat)}</span><p class="section-label">EVERY CAT HAS A STORY</p><h1>${cat.name}</h1><p class="detail-location">⌖ ${area.label}, ${area.province}</p><p class="detail-intro">${cat.detail}</p>
@@ -153,4 +153,11 @@ if (detailRoot) {
       }
     });
   }
+}
+
+const postingMenu = document.querySelector('.nav-post');
+if (postingMenu) {
+  document.addEventListener('click', event => { if (!postingMenu.contains(event.target)) postingMenu.open = false; });
+  postingMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { postingMenu.open = false; }));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && postingMenu.open) { postingMenu.open = false; postingMenu.querySelector('summary').focus(); } });
 }
