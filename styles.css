@@ -104,7 +104,9 @@ a { color: inherit; text-decoration: none; }
 .filter-buttons button.active { border-color: var(--brown); color: #fff; background: var(--brown); }
 .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .cat-card { overflow: hidden; border: 1px solid var(--border); border-radius: 14px; background: var(--white); transition: 180ms ease; }
-.cat-card:hover { transform: translateY(-5px); box-shadow: 0 13px 30px rgba(81, 59, 50, 0.08); }
+@media (hover: hover) and (pointer: fine) {
+  .cat-card:hover { transform: translateY(-5px); box-shadow: 0 13px 30px rgba(81, 59, 50, 0.08); }
+}
 .cat-photo { position: relative; height: 245px; }
 .cat-photo img { width: 100%; height: 100%; object-fit: cover; }
 .status { position: absolute; top: 14px; left: 14px; padding: 5px 11px; border-radius: 6px; color: #b7522e; background: #fff0e7; font-size: 11px; font-weight: 700; }
@@ -193,7 +195,9 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
 .nav-links a { white-space: nowrap; }
 .cat-photo { display: block; overflow: hidden; background: #ede3d5; }
 .cat-photo img { display: block; transition: transform 250ms ease; }
-.cat-photo:hover img { transform: scale(1.035); }
+@media (hover: hover) and (pointer: fine) {
+  .cat-photo:hover img { transform: scale(1.035); }
+}
 .cat-meta { align-items: center; flex-wrap: wrap; }
 .cat-meta a { color: var(--brown); font-weight: 700; padding-block: 5px; }
 .sample-note { color: var(--muted); font-size: 11px; line-height: 1.8; }
@@ -394,3 +398,8 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
 #adoptionDialog {width:min(760px,calc(100% - 24px));max-height:88dvh;overflow-y:auto;text-align:left;padding:28px;box-sizing:border-box}#adoptionDialog .profile-card {border:0;padding:0;margin:0}#adoptionDialog h2 {padding-right:25px}#adoptionDialog::backdrop {background:#30241cb3}body:has(#adoptionDialog[open]) {overflow:hidden}@media(max-width:600px){#adoptionDialog {padding:20px}}
 
 #adoptionForm fieldset {border:1px solid var(--border);border-radius:14px;padding:18px;margin:22px 0}#adoptionForm legend {font-weight:700;padding:0 8px}#adoptionForm select {width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:white;color:var(--brown)}
+
+/* Keep catalog links easy to activate on touch screens. */
+.cat-photo, .cat-info a, .filter-buttons button { touch-action: manipulation; }
+.cat-meta a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 8px; flex-shrink: 0; }
+.cat-meta { align-items: center; }

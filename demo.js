@@ -42,7 +42,7 @@
     if (window.LightBaanDemo.user()) document.querySelectorAll('.auth-actions').forEach(el => {
       el.innerHTML = `<a class="profile-link" href="profile.html" aria-label="โปรไฟล์ของ ${escape(window.LightBaanDemo.user().name)}"><span class="profile-mini-avatar" aria-hidden="true">${escape(Array.from(window.LightBaanDemo.user().name)[0] || '♡')}</span><span class="profile-link-name">${escape(window.LightBaanDemo.user().name)}</span></a><a class="login-button" href="my-posts.html">ประกาศของฉัน</a>`;
     });
-    document.querySelectorAll('[data-logout]').forEach(button => button.onclick = () => {sessionStorage.removeItem('lightbaan-user'); location.href='index.html';});
+    document.querySelectorAll('[data-logout]').forEach(button => button.onclick = () => {sessionStorage.removeItem('lightbaan-user'); location.href='index.html?v=20261018-nav';});
     const root = document.querySelector('#myPosts');
     if (root) {
       const posts = window.LightBaanDemo.posts().filter(p=>(p.owner||"demo@lightbaan.test")===window.LightBaanDemo.user()?.email);
