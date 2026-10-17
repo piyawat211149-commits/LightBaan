@@ -8,9 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
-  <script src="auth.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261017-accounts">
+  <script src="demo.js?v=20261017-accounts" defer></script>
+  <script src="app.js?v=20261017-accounts" defer></script>
+  <script src="auth.js?v=20261017-accounts" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#authMain">ข้ามไปยังเนื้อหา</a>
@@ -29,7 +30,7 @@
       <section class="auth-panel" aria-labelledby="formTitle">
         <div class="auth-tabs" role="group" aria-label="เลือกเข้าสู่ระบบหรือลงทะเบียน"><button type="button" data-auth-mode="login" aria-pressed="true" class="active">เข้าสู่ระบบ</button><button type="button" data-auth-mode="register" aria-pressed="false">ลงทะเบียน</button></div>
         <p class="section-label" id="formEyebrow">WELCOME BACK</p><h2 id="formTitle">ยินดีต้อนรับกลับบ้าน</h2><p class="auth-description" id="formDescription">เข้าสู่ระบบเพื่อเริ่มช่วยน้องไปด้วยกัน</p>
-        <p class="demo-notice">หน้าสมาชิกตัวอย่าง ยังไม่มีการสร้างบัญชีหรือส่งข้อมูล กรุณาใช้ข้อมูลสมมติในการทดลอง</p>
+        <p class="demo-notice">สมัครบัญชีจำลองเองได้ ข้อมูลอยู่เฉพาะในแท็บนี้ ไม่ใช้ข้ามเครื่อง กรุณาใช้รหัสผ่านสมมติ หรือใช้ demo@lightbaan.test / Demo1234</p>
         <form id="authForm" novalidate>
           <div class="field register-only" hidden><label for="displayName">ชื่อที่แสดง</label><input id="displayName" name="displayName" type="text" autocomplete="nickname" maxlength="60" aria-describedby="displayNameError" disabled><small class="field-error" id="displayNameError"></small></div>
           <div class="field"><label for="email">อีเมล</label><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required aria-describedby="emailError"><small class="field-error" id="emailError"></small></div>
@@ -39,7 +40,7 @@
           <button class="primary-button auth-submit" id="authSubmit" type="submit" disabled>ทดลองเข้าสู่ระบบ</button>
         </form>
         <p class="auth-switch"><span id="switchText">ยังไม่มีบัญชี?</span> <button type="button" id="switchMode">ลงทะเบียน</button></p>
-        <noscript><p>กรุณาเปิด JavaScript เพื่อทดลองฟอร์ม หน้านี้ไม่สร้างบัญชีจริง</p></noscript>
+        <noscript><p>กรุณาเปิด JavaScript เพื่อทดลองฟอร์ม บัญชีจำลองใช้ได้เฉพาะในแท็บนี้</p></noscript>
       </section>
     </div>
   </main>

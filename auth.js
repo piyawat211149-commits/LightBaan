@@ -61,7 +61,7 @@ authForm.addEventListener("input", event => {
   if (error) error.textContent = "";
   event.target.removeAttribute("aria-invalid");
 });
-authForm.addEventListener("submit", event => {
+authForm.addEventListener("submit", async event => {
   event.preventDefault();
   let firstInvalid = null;
   const setError = (id, message) => {
@@ -80,10 +80,25 @@ authForm.addEventListener("submit", event => {
   else if (authMode === "register" && password.value.length < 8) setError("password", "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
   if (authMode === "register" && (!document.querySelector("#confirmPassword").value || password.value !== document.querySelector("#confirmPassword").value)) setError("confirmPassword", "กรุณายืนยันรหัสผ่านให้ตรงกัน");
   if (firstInvalid) { firstInvalid.focus(); return; }
-  feedback.textContent = "ตรวจรูปแบบข้อมูลผ่านแล้ว นี่คือการสาธิตฟอร์ม ระบบยังไม่สร้างบัญชีหรือเข้าสู่ระบบจริง และไม่ได้บันทึกข้อมูลของคุณ";
-  feedback.hidden = false;
-  authForm.querySelectorAll('input[name*="assword"]').forEach(input => input.value = "");
-  feedback.focus();
+  const submit = document.querySelector('#authSubmit');
+  const mode = authMode;
+  submit.disabled = true;
+  try {
+    if (mode === 'login') {
+      if (!await window.LightBaanDemo.login(email.value, password.value)) {setError('password','อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง');return;}
+      location.href='index.html'; return;
+    }
+    const registeredEmail=email.value.trim();
+    await window.LightBaanDemo.register(document.querySelector('#displayName').value,email.value,password.value);
+    setAuthMode('login');
+    email.value=registeredEmail;
+    feedback.textContent='สมัครบัญชีจำลองสำเร็จ ใช้อีเมลและรหัสผ่านที่เพิ่งสมัครเข้าสู่ระบบได้ในแท็บนี้';
+    feedback.hidden=false; feedback.focus();
+  } catch(error) {
+    feedback.textContent=error.message==='อีเมลนี้ถูกใช้แล้วในแท็บนี้' ? error.message : 'บันทึกบัญชีไม่ได้ กรุณาเปิดผ่าน localhost หรือ HTTPS และอนุญาตพื้นที่จัดเก็บของเว็บไซต์';
+    feedback.hidden=false;
+  } finally { submit.disabled=false; }
+
 });
 setAuthMode(new URLSearchParams(location.search).get("mode"), false);
 document.querySelector("#authSubmit").disabled = false;
