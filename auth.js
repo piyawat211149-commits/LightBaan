@@ -86,7 +86,7 @@ authForm.addEventListener("submit", async event => {
   try {
     if (mode === 'login') {
       if (!await window.LightBaanDemo.login(email.value, password.value)) {setError('password','อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง');return;}
-      location.href='index.html'; return;
+      location.href='profile.html'; return;
     }
     const registeredEmail=email.value.trim();
     await window.LightBaanDemo.register(document.querySelector('#displayName').value,email.value,password.value);

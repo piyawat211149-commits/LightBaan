@@ -8,6 +8,26 @@
   --border: #eadfd3;
 }
 
+.profile-link { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.profile-link-name { max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.profile-mini-avatar, .profile-avatar { display: grid; place-items: center; flex-shrink: 0; border-radius: 50%; background: #f9e2d4; color: #8b432b; font-weight: 700; }
+.profile-mini-avatar { width: 34px; height: 34px; }
+.profile-page { max-width: 900px; padding-block: 35px 65px; }
+.profile-page h1 { margin: 10px 0 24px; }
+.profile-card { padding: 30px; border: 1px solid var(--border); border-radius: 22px; background: var(--white); margin-bottom: 22px; }
+.profile-identity { display: flex; align-items: center; gap: 20px; min-width: 0; }
+.profile-identity > div { min-width: 0; }
+.profile-identity h2 { font-size: 28px; margin: 10px 0 6px; overflow-wrap: anywhere; }
+.profile-email { color: var(--muted); overflow-wrap: anywhere; margin: 0; }
+.profile-avatar { width: 80px; height: 80px; font-size: 32px; }
+.profile-badge { font-size: 12px; color: #466044; background: #edf2e8; padding: 6px 10px; border-radius: 20px; display: inline-block; }
+.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0; }
+.profile-stats div { background: var(--cream); border-radius: 14px; padding: 18px 8px; text-align: center; }
+.profile-stats strong { display: block; font-size: 28px; color: var(--orange); }
+.profile-stats span { font-size: 13px; }
+.profile-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 600px) { .profile-card { padding: 20px; } .profile-identity { align-items: flex-start; gap: 12px; } .profile-avatar { width: 54px; height: 54px; font-size: 24px; } .profile-identity h2 { font-size: 23px; } .profile-stats { gap: 6px; } .profile-stats span { font-size: 11px; } }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 body { margin: 0; color: var(--brown); background: var(--cream); font-family: "Noto Sans Thai", Tahoma, sans-serif; }
@@ -363,3 +383,14 @@ a.primary-button, a.secondary-button, a.login-button, a.register-button { displa
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
 }
+
+/* Demo workflow */
+.demo-types {display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}.demo-types a {padding:12px 18px;border:1px solid var(--border);border-radius:12px;background:#fffdf9}.demo-post {padding:22px;margin:20px 0;border:1px solid var(--border);border-radius:16px}.demo-post button {margin:12px}.auth-actions {flex-wrap:wrap}#tipMessage {display:block;width:100%;margin:12px 0;padding:12px;border:1px solid var(--border);border-radius:10px}#saveStatus {color:#a84425}
+
+#adoptionForm textarea,.request-card textarea {font:inherit;width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;resize:vertical;background:white} .adoption-consent {display:block;margin:18px 0;line-height:1.7}.request-card {overflow-wrap:anywhere}.request-card details {margin:20px 0}.request-card dt {font-weight:600;margin-top:15px}.request-card dd {margin:6px 0;color:var(--muted);white-space:pre-wrap}.request-card .profile-actions {margin-top:16px}.review-note {white-space:pre-wrap;background:var(--cream);padding:15px;border-radius:12px}.demo-types [aria-current="page"] {border-color:var(--orange);color:#a84425}#reviewFeedback,#adoptionFeedback {color:#a84425}
+
+.status.closed {background:#e2efdf;color:#345d35}.status.reserved {background:#ffe7c3;color:#854e12}.detail-actions button:disabled {opacity:.65;cursor:not-allowed}
+
+#adoptionDialog {width:min(760px,calc(100% - 24px));max-height:88dvh;overflow-y:auto;text-align:left;padding:28px;box-sizing:border-box}#adoptionDialog .profile-card {border:0;padding:0;margin:0}#adoptionDialog h2 {padding-right:25px}#adoptionDialog::backdrop {background:#30241cb3}body:has(#adoptionDialog[open]) {overflow:hidden}@media(max-width:600px){#adoptionDialog {padding:20px}}
+
+#adoptionForm fieldset {border:1px solid var(--border);border-radius:14px;padding:18px;margin:22px 0}#adoptionForm legend {font-weight:700;padding:0 8px}#adoptionForm select {width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:white;color:var(--brown)}

@@ -40,20 +40,20 @@
   }
   document.addEventListener('DOMContentLoaded', () => {
     if (window.LightBaanDemo.user()) document.querySelectorAll('.auth-actions').forEach(el => {
-      el.innerHTML = '<a class="login-button" href="my-posts.html">ประกาศของฉัน</a><button class="register-button" type="button" data-logout>ออกจากระบบ</button>';
+      el.innerHTML = `<a class="profile-link" href="profile.html" aria-label="โปรไฟล์ของ ${escape(window.LightBaanDemo.user().name)}"><span class="profile-mini-avatar" aria-hidden="true">${escape(Array.from(window.LightBaanDemo.user().name)[0] || '♡')}</span><span class="profile-link-name">${escape(window.LightBaanDemo.user().name)}</span></a><a class="login-button" href="my-posts.html">ประกาศของฉัน</a>`;
     });
     document.querySelectorAll('[data-logout]').forEach(button => button.onclick = () => {sessionStorage.removeItem('lightbaan-user'); location.href='index.html';});
     const root = document.querySelector('#myPosts');
     if (root) {
       const posts = window.LightBaanDemo.posts().filter(p=>(p.owner||"demo@lightbaan.test")===window.LightBaanDemo.user()?.email);
-      root.innerHTML = window.LightBaanDemo.user() ? '<p class="demo-notice">ประกาศจำลองอยู่ในแท็บนี้เท่านั้น ปิดแท็บแล้วข้อมูลจะหาย ไม่ได้เผยแพร่ให้ผู้อื่น</p><p><a class="primary-button" href="report.html">ลงประกาศใหม่</a></p>' + (posts.length ? posts.map(p=>`<article class="demo-post"><h2>${escape(p.name)}</h2><p>${escape(p.location)} · ${p.closed ? 'ปิดประกาศแล้ว' : 'กำลังดำเนินการ'}</p><a class="text-link" href="cat.html?id=${p.id}">ดูรายละเอียด →</a><button class="secondary-button" data-toggle-post="${p.id}">${p.closed ? 'เปิดประกาศอีกครั้ง' : 'ปิดประกาศ — ช่วยน้องสำเร็จ'}</button></article>`).join('') : '<p>ยังไม่มีประกาศ ลองลงประกาศแรกของคุณได้เลย</p>') : '<p>กรุณาเข้าสู่ระบบจำลองก่อน</p><a class="primary-button" href="auth.html">เข้าสู่ระบบ</a>';
+      root.innerHTML = window.LightBaanDemo.user() ? '<p class="demo-notice">ประกาศจำลองอยู่ในแท็บนี้เท่านั้น ปิดแท็บแล้วข้อมูลจะหาย ไม่ได้เผยแพร่ให้ผู้อื่น</p><p><a class="primary-button" href="report.html">ลงประกาศใหม่</a></p>' + (posts.length ? posts.map(p=>`<article class="demo-post"><h2>${escape(p.name)}</h2><p>${escape(p.location)} · ${window.LightBaanAdoption.statusLabel(p)}</p><a class="text-link" href="cat.html?id=${p.id}">ดูรายละเอียด →</a><button class="secondary-button" data-toggle-post="${p.id}">${p.closed ? 'เปิดประกาศอีกครั้ง' : 'ปิดประกาศ — ช่วยน้องสำเร็จ'}</button></article>`).join('') : '<p>ยังไม่มีประกาศ ลองลงประกาศแรกของคุณได้เลย</p>') : '<p>กรุณาเข้าสู่ระบบจำลองก่อน</p><a class="primary-button" href="auth.html">เข้าสู่ระบบ</a>';
       root.querySelectorAll('[data-toggle-post]').forEach(button => button.onclick = () => { const items=window.LightBaanDemo.posts(); const post=items.find(p=>p.id===button.dataset.togglePost && (p.owner||'demo@lightbaan.test')===window.LightBaanDemo.user()?.email); if(!post)return; post.closed=!post.closed; try {write('lightbaan-posts',items);location.reload();} catch {alert('บันทึกไม่ได้ กรุณาตรวจพื้นที่จัดเก็บของเบราว์เซอร์');} });
     }
     const detail = document.querySelector('#catDetail');
     if (detail && window.LightBaanData) {
       const cat=window.LightBaanData.cats.find(c=>c.id===new URLSearchParams(location.search).get('id'));
       if (!cat) return;
-      if (cat.closed) {const notice=document.createElement('p');notice.className='demo-notice';notice.textContent='ปิดประกาศแล้ว — ช่วยน้องสำเร็จ';detail.prepend(notice);}
+      if (cat.closed) {const notice=document.createElement('p');notice.className='demo-notice';notice.textContent=window.LightBaanAdoption.statusLabel(cat);detail.prepend(notice);}
       const dialog=document.querySelector('#comingSoonDialog');
       if (dialog) {
         dialog.querySelector('h2').textContent='ติดต่อ / ส่งเบาะแส (จำลอง)';

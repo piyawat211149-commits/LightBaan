@@ -8,7 +8,7 @@ function createCatCard(cat) {
   return `<article class="cat-card">
     <a class="cat-photo" href="cat.html?id=${cat.id}" aria-label="ดูรายละเอียด ${cat.name}">
       <img src="${cat.image}" style="object-position: ${cat.imagePosition}" alt="ภาพประกอบประกาศ ${cat.name}" loading="lazy">
-      <span class="status ${cat.type}">${data.types[cat.type]}</span>
+      <span class="status ${cat.type} ${window.LightBaanAdoption.lifecycle(cat)}">${window.LightBaanAdoption.statusLabel(cat)}</span>
     </a>
     <div class="cat-info"><h3><a href="cat.html?id=${cat.id}">${cat.name}</a></h3><p>${cat.detail}</p>
       <div class="cat-meta"><span>⌖ ${cat.location}</span><a href="cat.html?id=${cat.id}" aria-label="ดูรายละเอียด ${cat.name}">ดูรายละเอียด →</a></div>
@@ -16,9 +16,18 @@ function createCatCard(cat) {
   </article>`;
 }
 
+function isAdopted(cat) {
+  return cat.type === "adopt" && window.LightBaanAdoption.lifecycle(cat) === "closed";
+}
+const homeGrid = document.querySelector("#homeCatGrid");
+if (homeGrid) {
+  homeGrid.innerHTML = data.cats.filter(cat => window.LightBaanAdoption.lifecycle(cat) !== "closed").slice(0, 3).map(createCatCard).join("");
+  const adopted = data.cats.filter(isAdopted);
+  document.querySelector("#adoptedCatGrid").innerHTML = adopted.length ? adopted.slice(0, 3).map(createCatCard).join("") : "<p>ยังไม่มีแมวที่มีผู้รับเลี้ยงแล้ว</p>";
+}
 function renderCats() {
   const filtered = data.cats.filter(cat =>
-    (typeFilter.value === "all" || cat.type === typeFilter.value) &&
+    (typeFilter.value === "all" || (typeFilter.value === "adopted" ? isAdopted(cat) : cat.type === typeFilter.value && (cat.type !== "adopt" || !isAdopted(cat)))) &&
     (provinceFilter.value === "all" || data.areas.find(area => area.id === cat.district)?.province === provinceFilter.value) &&
     (districtFilter.value === "all" || cat.district === districtFilter.value)
   );
@@ -51,7 +60,7 @@ if (catGrid) {
     renderCats();
   });
   const initialType = new URLSearchParams(location.search).get("type");
-  if (Object.hasOwn(data.types, initialType)) typeFilter.value = initialType;
+  if ((Object.hasOwn(data.types, initialType) || initialType === "adopted")) typeFilter.value = initialType;
   document.querySelector("#searchForm").addEventListener("submit", event => {
     event.preventDefault();
     renderCats();
@@ -100,35 +109,36 @@ if (detailRoot) {
   const cat = data.cats.find(item => item.id === id);
   if (!cat) {
     document.title = "ไม่พบประกาศ | LightBaan";
-    detailRoot.innerHTML = '<div class="not-found"><span class="dialog-icon">⌕</span><h1>ไม่พบประกาศนี้</h1><p>ลิงก์อาจไม่ถูกต้อง ลองเลือกน้องจากรายการในหน้าแรกอีกครั้ง</p><a class="primary-button" href="index.html#cats">กลับไปดูประกาศ</a></div>';
+    detailRoot.innerHTML = '<div class="not-found"><span class="dialog-icon">⌕</span><h1>ไม่พบประกาศนี้</h1><p>ลิงก์อาจไม่ถูกต้อง ลองเลือกน้องจากรายการในหน้าแรกอีกครั้ง</p><a class="primary-button" href="cats.html">กลับไปดูประกาศ</a></div>';
   } else {
     document.title = `${cat.name} — ${data.types[cat.type]} | LightBaan`;
     const area = data.areas.find(item => item.id === cat.district);
     const action = cat.type === "adopt" ? "สนใจรับเลี้ยงน้อง" : cat.type === "lost" ? "แจ้งเบาะแสให้ผู้ประกาศ" : "ติดต่อเพื่อยืนยันเจ้าของ";
     detailRoot.innerHTML = `
-      <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html">หน้าแรก</a><span>/</span><a href="index.html#cats">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
+      <nav class="breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="index.html">หน้าแรก</a><span>/</span><a href="cats.html">ประกาศแมว</a><span>/</span><span aria-current="page">${cat.name}</span></nav>
       <div class="detail-grid">
         <div class="detail-photo-wrap"><img class="detail-photo" src="${cat.image}" style="object-position: ${cat.imagePosition}" alt="ภาพประกอบประกาศ ${cat.name}"><p class="sample-note">ภาพประกอบและข้อมูลตัวอย่าง ไม่ใช่ประกาศรับเลี้ยงหรือแจ้งหายจริง</p></div>
-        <div class="detail-summary"><span class="status ${cat.type}">${data.types[cat.type]}</span><p class="section-label">EVERY CAT HAS A STORY</p><h1>${cat.name}</h1><p class="detail-location">⌖ ${area.label}, ${area.province}</p><p class="detail-intro">${cat.detail}</p>
+        <div class="detail-summary"><span class="status ${cat.type} ${window.LightBaanAdoption.lifecycle(cat)}">${window.LightBaanAdoption.statusLabel(cat)}</span><p class="section-label">EVERY CAT HAS A STORY</p><h1>${cat.name}</h1><p class="detail-location">⌖ ${area.label}, ${area.province}</p><p class="detail-intro">${cat.detail}</p>
           <dl class="cat-facts"><div><dt>เพศ</dt><dd>${cat.sex}</dd></div><div><dt>อายุ</dt><dd>${cat.age}</dd></div><div><dt>สี / ลายขน</dt><dd>${cat.coat}</dd></div><div><dt>ลักษณะเด่น</dt><dd>${cat.trait}</dd></div></dl>
           <div class="detail-actions"><button class="primary-button" type="button" data-coming-soon>${action}</button><button class="secondary-button" type="button" id="shareCat">คัดลอกลิงก์ประกาศ ↗</button></div>
           <p class="share-feedback" id="shareFeedback" role="status"></p><div id="shareFallback" hidden><label for="shareLink">คัดลอกลิงก์นี้เพื่อส่งให้เพื่อน</label><input id="shareLink" type="url" readonly></div>
         </div>
       </div>
       <div class="detail-bottom"><div class="detail-story"><h2>เรื่องราวของ${cat.name}</h2><p>${cat.story}</p><h2>ข้อมูลการดูแล</h2><p>${cat.care}</p><h2>${cat.type === "adopt" ? "ก่อนตัดสินใจรับเลี้ยง" : "ก่อนส่งต่อเบาะแส"}</h2><p>${cat.type === "adopt" ? "พูดคุยเรื่องพื้นที่อยู่อาศัย เวลาในการดูแล และความพร้อมของทุกคนในบ้าน นัดทำความรู้จักน้องกับผู้ดูแลก่อนตัดสินใจ" : "เปรียบเทียบภาพและลักษณะเฉพาะตัว พร้อมจดพื้นที่และเวลาที่พบ ข้อมูลที่คล้ายกันเป็นเพียงเบาะแส ผู้ประกาศต้องตรวจสอบและยืนยันอีกครั้ง"}</p></div>
-      <aside class="publisher"><p class="section-label">THE PERSON BEHIND THE POST</p><h2>ข้อมูลผู้ประกาศ</h2><div class="publisher-avatar" aria-hidden="true">♡</div><h3>${cat.publisher}</h3><p>พื้นที่: ${area.label}</p><p>ประกาศนี้ใช้สาธิตหน้าเว็บ จึงยังไม่มีหมายเลขโทรศัพท์หรือช่องทางติดต่อจริง</p><button class="secondary-button" type="button" data-coming-soon>ดูช่องทางติดต่อ</button></aside></div>
+      <aside class="publisher"><p class="section-label">THE PERSON BEHIND THE POST</p><h2>ข้อมูลผู้ประกาศ</h2><div class="publisher-avatar" aria-hidden="true">♡</div><h3>${cat.publisher}</h3><p>พื้นที่: ${area.label}</p><p>${cat.contact ? "เบอร์โทร (จำลอง): " + cat.contact + (cat.line ? "<br>LINE ID (จำลอง): " + cat.line : "") + "<br>ข้อมูลสำหรับสาธิตเท่านั้น ไม่ใช่ช่องทางติดต่อจริง" : "ประกาศนี้ใช้สาธิตหน้าเว็บ จึงยังไม่มีช่องทางติดต่อจริง"}</p><button class="secondary-button" type="button" data-coming-soon>ดูช่องทางติดต่อ</button></aside></div>
       <section class="detail-map-section" aria-labelledby="catMapTitle">
         <p class="section-label">LOCATION</p>
         <h2 id="catMapTitle">${cat.type === "lost" ? "บริเวณที่หาย" : cat.type === "found" ? "บริเวณที่พบแมว" : "พื้นที่ของผู้ดูแล"}</h2>
         <p>⌖ ${area.label}, ${area.province}</p>
-        <p class="sample-note">หมุดตัวอย่างแสดงบริเวณเขต / อำเภอของประกาศ ไม่ใช่จุดที่พบแมวหรือที่อยู่จริง</p>
+        <p class="sample-note">${cat.custom ? "ตำแหน่งที่เลือกสำหรับประกาศจำลองในแท็บนี้" : "หมุดตัวอย่างแสดงบริเวณอำเภอ ไม่ใช่จุดที่พบแมวหรือที่อยู่จริง"}</p>
         <div id="catMap" role="region" aria-label="แผนที่พื้นที่ตัวอย่างของ${cat.name}"></div>
         <p id="catMapStatus" class="sample-note" role="status">กำลังโหลดแผนที่…</p>
         <button class="secondary-button" id="returnToCatPin" type="button" disabled>กลับไปที่หมุด</button>
         <p class="sample-note">พิกัดอ้างอิง: <a href="https://github.com/open-admin-data/thailand-administrative-divisions" target="_blank" rel="noopener noreferrer">Open Admin Data</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>) ใช้พิกัดโดยประมาณสำหรับสาธิต</p>
       </section>
-      <section class="related-section" aria-labelledby="relatedTitle"><div class="section-heading"><div><p class="section-label">MORE LITTLE STORIES</p><h2 id="relatedTitle">รู้จักน้องตัวอื่น ๆ</h2></div><a class="text-link" href="index.html#cats">ดูทั้งหมด →</a></div><div class="cat-grid">${data.cats.filter(item => item.id !== cat.id).sort((a, b) => Number(b.type === cat.type) - Number(a.type === cat.type)).slice(0, 3).map(createCatCard).join("")}</div></section>`;
+      <section class="related-section" aria-labelledby="relatedTitle"><div class="section-heading"><div><p class="section-label">MORE LITTLE STORIES</p><h2 id="relatedTitle">รู้จักน้องตัวอื่น ๆ</h2></div><a class="text-link" href="cats.html">ดูทั้งหมด →</a></div><div class="cat-grid">${data.cats.filter(item => item.id !== cat.id).sort((a, b) => Number(b.type === cat.type) - Number(a.type === cat.type)).slice(0, 3).map(createCatCard).join("")}</div></section>`;
     document.querySelector("#shareCat").addEventListener("click", async () => {
+      if (cat.custom) { document.querySelector("#shareFeedback").textContent="ประกาศนี้อยู่เฉพาะแท็บนี้ ลิงก์จะไม่เปิดข้อมูลบนเครื่องเพื่อน"; return; }
       const url = new URL(`cat.html?id=${cat.id}`, location.href).href;
       try {
         await navigator.clipboard.writeText(url);

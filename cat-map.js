@@ -6,6 +6,7 @@
   const button = document.querySelector("#returnToCatPin");
   const id = new URLSearchParams(location.search).get("id");
   const cat = window.LightBaanData.cats.find(item => item.id === id);
+  if (cat && !cat.coordinates) { container.hidden=true; button.hidden=true; status.textContent="ผู้ประกาศยังไม่ได้ปักหมุด ดูชื่ออำเภอและบริเวณในรายละเอียดด้านบนได้"; return; }
   if (!window.L || !cat?.coordinates) {
     container.hidden = true;
     status.textContent = "โหลดแผนที่ไม่ได้ กรุณาตรวจอินเทอร์เน็ตแล้วรีเฟรช โดยยังดูชื่อพื้นที่ของประกาศด้านบนได้";

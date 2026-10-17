@@ -49,7 +49,7 @@
   function pick(latlng) {
     point = L.latLng(latlng.lat, latlng.wrap().lng);
     if (!marker) {
-      marker = L.marker(point, { icon, draggable: true, title: "จุดที่พบครั้งสุดท้าย ลากเพื่อย้าย", alt: "หมุดจุดที่พบครั้งสุดท้าย" }).addTo(map);
+      marker = L.marker(point, { icon, draggable: true, title: "จุดของประกาศ ลากเพื่อย้าย", alt: "หมุดจุดของประกาศ" }).addTo(map);
       marker.on("dragend", () => pick(marker.getLatLng()));
     } else marker.setLatLng(point);
     status.textContent = "ปักหมุดแล้ว: " + point.lat.toFixed(5) + ", " + point.lng.toFixed(5) + " — กดจุดใหม่หรือลากหมุดเพื่อแก้ไข";
@@ -61,7 +61,7 @@
     marker = null;
     point = null;
     clearButton.disabled = true;
-    status.textContent = "ยังไม่ได้ปักหมุด เลือกจุดที่พบแมวครั้งสุดท้ายบนแผนที่";
+    status.textContent = "ยังไม่ได้ปักหมุด เลือกจุดของประกาศบนแผนที่";
     document.querySelector("#resultMapSection").hidden = true;
     document.querySelector("#resultDirections").removeAttribute("href");
     hidePreview();
@@ -83,12 +83,13 @@
     map.stop();
     if (center) {
       map.setView(center, 13, { animate: false });
-      status.textContent = "แสดงบริเวณ" + area.label + "แล้ว เลื่อนแผนที่และปักหมุดจุดที่พบแมวครั้งสุดท้าย";
+      status.textContent = "แสดงบริเวณ" + area.label + "แล้ว เลื่อนแผนที่และปักหมุดจุดของประกาศ";
     } else {
       map.setView(centers[province] || centers["ปทุมธานี"], 11, { animate: false });
     }
   });
   window.LightBaanMap = {
+    getPoint() { return point ? [point.lat, point.lng] : null; },
     renderPreview() {
       const section = document.querySelector("#resultMapSection");
       section.hidden = !point;
@@ -100,7 +101,7 @@
       previewMap.invalidateSize();
       previewMap.setView(point, 16);
       if (previewMarker) previewMarker.setLatLng(point);
-      else previewMarker = L.marker(point, { icon, alt: "จุดที่พบแมวครั้งสุดท้าย" }).addTo(previewMap);
+      else previewMarker = L.marker(point, { icon, alt: "จุดของประกาศ" }).addTo(previewMap);
       document.querySelector("#resultCoordinates").textContent = "พิกัดที่ผู้แจ้งเลือก: " + point.lat.toFixed(5) + ", " + point.lng.toFixed(5);
       document.querySelector("#resultDirections").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(point.lat + "," + point.lng);
     }
